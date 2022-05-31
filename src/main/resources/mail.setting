@@ -1,0 +1,26 @@
+# SMTP address of the mail server. The default value is SMTP. Sender email suffix >;
+host = smtp.gmail.com
+# SMTP port of the mail server. The default value is 25
+port = 465
+# Sender (must be correct or send fails)
+from = Derek Dev <0x28@theapis.xyz>
+# User name, which is the sender email prefix by default
+user = 0x28@theapis.xyz
+# Password (Note that some mailboxes require a separate authorization code for the SMTP service, see the related help for details)
+pass = Family@12345
+# Secure connections using STARTTLS, an extension to the plain text communication protocol.
+starttlsEnable = false
+
+# Use SSL secure connections
+sslEnable = true
+# Specifies the name of the class that implements the javax.net.SocketFactory interface that will be used to create SMTP sockets
+socketFactoryClass = javax.net.ssl.SSLSocketFactory
+# If set to true, failure to create a socket using the specified socket factory class results in a socket class created using java.net.Socket, which defaults to true
+socketFactoryFallback = true
+# The specified port is connected to the specified socket factory while using. If not, the default port 456 will be used
+socketFactoryPort = 465
+
+# SMTP timeout duration, expressed in milliseconds. The default value is not timeout
+timeout = 0
+# Timeout value of the Socket connection, in milliseconds. The default value is not timeout
+connectionTimeout = 0

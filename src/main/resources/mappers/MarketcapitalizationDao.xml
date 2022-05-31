@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.MarketcapitalizationDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.mini.Marketcapitalization">
+    <id column="mcId" jdbcType="VARCHAR" property="mcId" />
+    <result column="marketCap" jdbcType="DOUBLE" property="marketCap" />
+    <result column="volume" jdbcType="DOUBLE" property="volume" />
+    <result column="circulatingSupply" jdbcType="DOUBLE" property="circulatingSupply" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="time" jdbcType="BIGINT" property="time" />
+  </resultMap>
+  <select id="getStatisticsByPeriodTime" resultMap="BaseResultMap">
+    select sum(marketCap) as marketCap,sum(volume) as volume,sum(circulatingSupply) as circulatingSupply,time
+    from marketcapitalization
+    where type = #{type}
+    group by FORMAT(time,#{time});
+  </select>
+</mapper>

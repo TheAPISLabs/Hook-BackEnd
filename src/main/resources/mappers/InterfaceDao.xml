@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.role.InterfaceDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.role.Interface">
+    <id column="iId" jdbcType="VARCHAR" property="iId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    iId, `name`
+  </sql>
+  <select id="getInterfacesByRId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT e.*
+    FROM role_interface d
+           LEFT JOIN interface e ON d.iId = e.iId
+    WHERE d.rId = #{rId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getInterfacesBy" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT e.*
+    FROM role c LEFT JOIN role_interface d
+                          ON c.rId = d.rId
+                LEFT JOIN interface e ON d.iId = e.iId
+    WHERE c.roleName =  #{roleName}
+  </select>
+
+</mapper>

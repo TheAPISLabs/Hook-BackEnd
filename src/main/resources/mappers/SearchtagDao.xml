@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.SearchTagDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.search.SearchTag">
+    <id column="stId" jdbcType="VARCHAR" property="stId" />
+    <result column="tagName" jdbcType="VARCHAR" property="tagName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stId, tagName
+  </sql>
+  <select id="selectByAddress" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT b.stId,b.tagName
+    FROM search_heat_tag a
+           LEFT JOIN searchtag b
+                     ON a.stId = b.stId
+    WHERE a.address = #{address};
+
+  </select>
+</mapper>

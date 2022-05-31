@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.game.GameiconGameprojectUserDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.GameiconGameprojectUser">
+    <id column="giuId" jdbcType="VARCHAR" property="giuId" />
+    <result column="giId" jdbcType="VARCHAR" property="giId" />
+    <result column="uId" jdbcType="VARCHAR" property="uId" />
+    <result column="gpId" jdbcType="VARCHAR" property="gpId" />
+  </resultMap>
+
+  <resultMap id="User" type="com.yike.apis.pojo.user.User">
+    <id column="uId" jdbcType="VARCHAR" property="uId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="vip" jdbcType="INTEGER" property="vip" />
+    <result column="lastLoginTime" jdbcType="BIGINT" property="lastLoginTime" />
+    <result column="lastLoginIp" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="twtter" jdbcType="VARCHAR" property="twtter" />
+  </resultMap>
+
+  <resultMap id="GameiconVo" type="com.yike.apis.pojo.game.vo.GameiconVo">
+    <id column="giId" jdbcType="VARCHAR" property="giId" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <collection column="{giId=giId}" property="userIcons" ofType="com.yike.apis.pojo.game.vo.UserVo" javaType="java.util.List"
+                select="com.yike.apis.dao.game.GameiconGameprojectUserDao.getUserIcons"></collection>
+  </resultMap>
+
+
+  <select id="getUserIcons" resultType="com.yike.apis.pojo.game.vo.UserVo">
+    SELECT b.icon AS "userIcon",b.uId FROM gameicon_gameproject_user a
+                         LEFT JOIN `user` b ON a.uId = b.uId
+            WHERE a.giId = #{giId}
+  </select>
+
+  <select id="getGameIconByGpId" parameterType="java.lang.String" resultMap="GameiconVo">
+    SELECT b.*,a.uId FROM gameicon_gameproject_user a
+                      LEFT JOIN gameicon b ON a.giId = b.giId
+      ${ew.customSqlSegment}
+  </select>
+
+</mapper>

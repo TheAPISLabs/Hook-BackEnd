@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.role.NavigationPermissionsDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.role.NavigationPermissions">
+    <id column="npId" jdbcType="VARCHAR" property="npId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parentId" jdbcType="VARCHAR" property="parentId" />
+    <result column="layout" jdbcType="VARCHAR" property="layout" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="collapse" jdbcType="VARCHAR" property="collapse" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.yike.apis.pojo.role.vo.NavigationPermissionsVo">
+    <id column="npId" jdbcType="VARCHAR" property="npId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parentId" jdbcType="VARCHAR" property="parentId" />
+    <result column="layout" jdbcType="VARCHAR" property="layout" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="collapse" jdbcType="VARCHAR" property="collapse" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+  </resultMap>
+  <select id="getUserBarRole" parameterType="java.lang.String" resultMap="BaseResultMap1">
+    SELECT d.*
+    FROM user_role a LEFT JOIN role b ON a.rId = b.rId
+                     LEFT JOIN role_navigation_permissions c ON b.rId = c.rId
+                     LEFT JOIN navigation_permissions d ON d.npId = c.npId
+    WHERE a.uId = #{uId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getUserBarRole2" parameterType="java.lang.String" resultMap="BaseResultMap1">
+    SELECT d.*
+    FROM role b
+           LEFT JOIN role_navigation_permissions c ON b.rId = c.rId
+           LEFT JOIN navigation_permissions d ON d.npId = c.npId
+    WHERE b.roleName = #{roleName}
+  </select>
+</mapper>

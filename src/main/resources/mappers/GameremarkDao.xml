@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.game.GameremarkDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.Gameremark">
+    <id column="grId" jdbcType="VARCHAR" property="grId" />
+    <result column="gpId" jdbcType="VARCHAR" property="gpId" />
+    <result column="uId" jdbcType="VARCHAR" property="uId" />
+    <result column="parentId" jdbcType="VARCHAR" property="parentId" />
+    <result column="rootParentId" jdbcType="VARCHAR" property="rootParentId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="time" jdbcType="BIGINT" property="time" />
+    <result column="liked" jdbcType="BIGINT" property="liked" />
+  </resultMap>
+
+  <resultMap id="GameremarkVo" type="com.yike.apis.pojo.game.vo.GameremarkVo">
+    <id column="grId" jdbcType="VARCHAR" property="grId" />
+    <result column="gpId" jdbcType="VARCHAR" property="gpId" />
+    <result column="uId" jdbcType="VARCHAR" property="uId" />
+    <result column="parentId" jdbcType="VARCHAR" property="parentId" />
+    <result column="rootParentId" jdbcType="VARCHAR" property="rootParentId" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="parentUserName" jdbcType="VARCHAR" property="parentUserName" />
+    <result column="userIcon" jdbcType="VARCHAR" property="userIcon" />
+    <result column="parentUserIcon" jdbcType="VARCHAR" property="parentUserIcon" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="time" jdbcType="BIGINT" property="time" />
+    <result column="liked" jdbcType="BIGINT" property="liked" />
+  </resultMap>
+
+  <select id="getComments" resultMap="GameremarkVo">
+    SELECT a.*,b.userName,b.icon FROM gameremark a
+                                        LEFT JOIN `user` b ON a.uId = b.uId
+                    ${ew.customSqlSegment}
+  </select>
+
+  <select id="getCommentsByParentId" resultMap="GameremarkVo">
+    SELECT a.*,b.userName,b.icon FROM gameremark a
+                                        LEFT JOIN `user` b ON a.uId = b.uId
+    WHERE a.parentId = #{parentId}
+  </select>
+
+  <select id="getCommentsByRootParentId" resultMap="GameremarkVo">
+    SELECT a.*,b.userName,b.icon FROM gameremark a
+                                        LEFT JOIN `user` b ON a.uId = b.uId
+    WHERE a.rootParentId = #{rootParentId}
+  </select>
+</mapper>

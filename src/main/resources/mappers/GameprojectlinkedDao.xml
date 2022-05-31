@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.game.GameprojectlinkedDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.Gameprojectlinked">
+    <id column="gplId" jdbcType="VARCHAR" property="gplId" />
+    <result column="linkedGameprojectId" jdbcType="VARCHAR" property="linkedGameprojectId" />
+    <result column="linkedUserId" jdbcType="VARCHAR" property="linkedUserId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createTime" jdbcType="BIGINT" property="createTime" />
+    <result column="updateTime" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    gplId, linkedGameprojectId, linkedUserId, `status`, createTime, updateTime
+  </sql>
+  <select id="getLikedListByLiked" resultMap="BaseResultMap">
+    SELECT * FROM gameprojectlinked
+                    ${ew.customSqlSegment}
+  </select>
+</mapper>

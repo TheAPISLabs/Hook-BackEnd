@@ -1,0 +1,123 @@
+server:
+  encoding:
+    charset: UTF-8
+  port: 8898
+#  ssl:
+#    enabled: true
+#    key-store: classpath:api.hook.cool.jks # The certificate file
+#    key-store-password: dev_apis  # password
+#    key-store-type: JKS # Keystore type
+
+spring:
+  config:
+    location: application.yml
+  redis:
+    host: 34.135.184.222     #Redis server IP address
+    port: 6380      #Redis service port
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 500
+        max-idle: 500
+        max-wait: -1ms
+        min-idle: 0
+    password: dev_yike
+    database: 1
+  datasource:
+    url: jdbc:mysql://34.135.184.222:3389/apis?serverTimezone=UTC&SSL=false&characterEncoding=UTF-8&allowMultiQueries=true
+    username: apis        #Mysql database account
+    password: dev_apis        #Password of the mysql database
+    max-active: 30
+    max-idle: 16
+    min-idle: 10
+    initial-size: 10
+    #Specifies how long the connection is not in use when it is set to idle, default is 10ms
+    idle-timeout: 10
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #Verify the validity of the connection
+    test-while-idle: true
+    validation-query: select 1 from dual
+    #Idle connection reclamation interval, used with test-while-idle, set to 5 minutes
+    time-between-eviction-runs-millis: 300000
+    #Set the validity period of idle connections in the connection pool to 30 minutes
+    min-evictable-idle-time-millis: 1800000
+    druid:
+      url: jdbc:mysql://34.135.184.222:3389/apis?serverTimezone=UTC&SSL=false&characterEncoding=UTF-8&allowMultiQueries=true
+      username: apis        #Mysql database account
+      password: dev_apis        #Password of the mysql database
+      driver-class-name: com.mysql.jdbc.Driver
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      filters: stat,wall,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMills=500
+      stat-view-servlet:
+        allow:
+          login-password: 123456
+          login-username: 9977
+          url-pattern: /druid/*
+          enabled: true
+
+mybatis-plus:
+  mapper-locations: classpath*:mappers/*.xml         #SQL XML file address
+  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    mapUnderscoreToCamelCase: false
+    # If the query result contains a null column, MyBatis will not map this column during mapping
+    call-setters-on-nulls: true
+  global-config:
+    banner: true
+    #IGNORED:" ignore judgment "NOT_NULL:" Non-null judgment ") NOT_EMPTY:" Non-null judgment"
+    field-strategy: NOT_EMPTY
+    db-config:
+      #Primary key type AUTO:" database ID increment "INPUT:" user INPUT ID",ID_WORKER:" globally unique ID (numeric type unique ID)", UUID:" globally unique ID UUID";
+      id-type: INPUT
+
+# Sa-Token configuration
+sa-token:
+  # Token name (also cookie name)
+  token-name: Authorization
+  # Token validity period. Unit: s The default value is 3 days. -1 indicates that the token will never expire
+  timeout: 259200
+  # Token validity period (If no operation is performed within the specified period, the token expires.) Unit: second
+  activity-timeout: -1
+  # Whether to allow concurrent logins with the same account (true allows simultaneous logins, false allows new logins to crowd out old logins)
+  is-concurrent: false
+  # Whether to share a token when multiple users log in to the same account (If the value is true, all logins share one token; if the value is false, one token is created for each login)
+  is-share: false
+  # Token prefix
+  token-prefix: Bearer
+  # Token style
+  token-style: random-128
+  # Whether to output operation logs
+  is-log: false
+  is-read-cookie: false
+  is-read-head: true
+
+secure:
+  ignored:
+    urls:
+      -/swagger-ui/
+      -/*.html
+      -/favicon.ico
+      -/**/*.html
+      -/**/*.css
+      -/**/*.js
+      -/swagger-resources/**
+
+forgotPasswordLink: <h1>【APIS】 Reset password link：<a href="http://192.168.31.216:3000/#/auth/lock/default" target="_blank" rel="noopener noreferrer">http://192.168.31.216:3000/#/auth/lock/default</a></h1>
+
+
+redisson:
+  address: redis://34.135.184.222:6380     #Redisson service address (single-node mode)
+  password: dev_yike       #password

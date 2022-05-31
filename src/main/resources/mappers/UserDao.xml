@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.UserDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.user.User">
+    <id column="uId" jdbcType="VARCHAR" property="uId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="vip" jdbcType="INTEGER" property="vip" />
+    <result column="lastLoginTime" jdbcType="BIGINT" property="lastLoginTime" />
+    <result column="lastLoginIp" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="twtter" jdbcType="VARCHAR" property="twtter" />
+  </resultMap>
+  <resultMap id="roleMap" type="com.yike.apis.pojo.role.Role">
+    <id column="rId" jdbcType="VARCHAR" property="rId" />
+    <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `uId`, address, userName, email, `password`, vip, lastLoginTime, lastLoginIp
+  </sql>
+  <select id="getUserBarRole" parameterType="java.lang.String" resultMap="roleMap">
+    SELECT c.*
+    FROM `user` a LEFT JOIN user_role b
+                            ON a.uId = b.uId
+                  LEFT JOIN role c ON c.rId = b.rId
+    WHERE a.uId = #{uId,jdbcType=VARCHAR}
+  </select>
+</mapper>

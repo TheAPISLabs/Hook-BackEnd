@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.game.GamefileDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.Gamefile">
+    <id column="gfId" jdbcType="VARCHAR" property="gfId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+
+  <select id="getGamefileByGpId" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_gamefile a
+                    LEFT JOIN gamefile b ON a.gfId = b.gfId
+    WHERE a.gpId = #{gpId}
+  </select>
+
+  <select id="getGamefileByGpId1" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_gamefile a
+                    LEFT JOIN gamefile b ON a.gfId = b.gfId
+    WHERE a.gpId = #{gpId} AND b.type = 1
+  </select>
+
+  <select id="getGamefileByGpId2" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_gamefile a
+                    LEFT JOIN gamefile b ON a.gfId = b.gfId
+    WHERE a.gpId = #{gpId} AND b.type = 2
+  </select>
+</mapper>
