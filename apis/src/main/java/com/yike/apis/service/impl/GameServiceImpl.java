@@ -441,8 +441,8 @@ public class GameServiceImpl implements GameService {
                     BigDecimal price = BigDecimal.valueOf(0);
                     if(ObjectUtil.isNotEmpty(o1)){
                         price = new BigDecimal(o1.toString());
+                        gameproject.setPrice(price.toPlainString());
                     }
-                    gameproject.setPrice(price.toPlainString());
                 }else if(gameproject.getSpecies().equals("nft")){
                     Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase());
                     if(ObjectUtil.isNotEmpty(o)){
@@ -455,8 +455,8 @@ public class GameServiceImpl implements GameService {
                     BigDecimal price = BigDecimal.valueOf(0);
                     if(ObjectUtil.isNotEmpty(o1)){
                         price = new BigDecimal(o1.toString());
+                        gameproject.setPrice(price.toPlainString());
                     }
-                    gameproject.setPrice(price.toPlainString());
                 }
 //                if(ObjectUtil.isNotEmpty(gameproject.getOpenseaName())){
 //                    Collection collection = OpenseaUtil.collection(OpenseaApi.collection.getUrl(),OpenseaApi.collection.getX_API_KEY(),OpenseaApi.collection.getAccept(),gameproject.getOpenseaName());
