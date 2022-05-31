@@ -1,14 +1,11 @@
 package com.yike.apis.service.impl;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yike.apis.config.RedissonConfig;
 import com.yike.apis.dao.UserDao;
 import com.yike.apis.dao.game.*;
 import com.yike.apis.pojo.game.*;
@@ -20,16 +17,16 @@ import com.yike.apis.utils.Coinmarketcap.vo.defi.CryptoCurrencyList;
 import com.yike.apis.utils.Coinmarketcap.vo.nft.Collections;
 import com.yike.apis.utils.CommentUtils;
 import com.yike.apis.utils.RedisUtil;
-import com.yike.apis.utils.opensea.OpenseaApi;
-import com.yike.apis.utils.opensea.OpenseaUtil;
-import com.yike.apis.utils.opensea.vo.Collection;
 import com.yike.apis.utils.reponseUtil.ResponseData;
 import com.yike.apis.utils.reponseUtil.ResponseDataUtil;
 import com.yike.apis.dao.game.GameprojectlinkedDao;
 import com.yike.apis.utils.tokenView.TokenUtil;
-import com.yike.apis.utils.tokenView.vo.TokenTokentrans;
+import com.yike.apis.utils.tokenView.vo.Maincoinex.Maincoinex;
+import com.yike.apis.utils.tokenView.vo.tokenTokentrans.TokenTokentrans;
 import com.yike.apis.utils.tokenView.vo.normal.Normal;
 import com.yike.apis.utils.tokenView.vo.tokenEth.TokenEth;
+import com.yike.apis.utils.tokenView.vo.tokenTokentrans.Data;
+import com.yike.apis.utils.tokenView.vo.txeth.TxEth;
 import com.yike.apis.utils.twtter.TwtterApi;
 import com.yike.apis.utils.twtter.TwtterUtil;
 import com.yike.apis.utils.twtter.vo.searchAdaptive.SearchAdaptive;
@@ -619,9 +616,21 @@ public class GameServiceImpl implements GameService {
             Gameproject gameproject = gameprojectDao.selectOne(wrapper);
             String img = "";
             img = gameproject.getImgUrl();
-            for(com.yike.apis.utils.tokenView.vo.Data data:tokenTokentrans.getData()){
+            Maincoinex maincoinex = TokenUtil.maincoinexchange();
+            for(Data data:tokenTokentrans.getData()){
                 if(data.getImageUrl().equals("not found") || data.getImageUrl().equals("") || ObjectUtil.isEmpty(data.getImageUrl())){
                     data.setImageUrl(img);
+                }
+                if(ObjectUtil.isNotEmpty(data.getValueIsNft())){
+                    TxEth txEth = TokenUtil.txeth(data.getTxid());
+                    if(ObjectUtil.isNotEmpty(txEth) && ObjectUtil.isNotEmpty(txEth.getData()) && txEth.getCode().equals(1)){
+                        data.setEthValue(txEth.getData().getValue());
+                    }else {
+                        data.setEthValue("0");
+                    }
+                }else {
+                    BigDecimal b = new BigDecimal(gameproject.getPrice()).multiply(new BigDecimal(data.getValue()).divide(BigDecimal.TEN.pow(new BigDecimal(data.getTokenInfo().getD()).intValue()),8,BigDecimal.ROUND_DOWN));
+                    data.setEthValue(b.divide(new BigDecimal(maincoinex.getData().getEth()),8,BigDecimal.ROUND_DOWN).toPlainString());
                 }
             }
         }

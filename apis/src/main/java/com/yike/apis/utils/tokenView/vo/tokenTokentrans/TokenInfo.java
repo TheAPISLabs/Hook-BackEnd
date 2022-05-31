@@ -1,4 +1,4 @@
-package com.yike.apis.utils.tokenView.vo;
+package com.yike.apis.utils.tokenView.vo.tokenTokentrans;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

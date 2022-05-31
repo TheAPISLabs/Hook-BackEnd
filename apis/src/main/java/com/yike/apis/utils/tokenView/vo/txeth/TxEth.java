@@ -1,12 +1,10 @@
-package com.yike.apis.utils.tokenView.vo;
+package com.yike.apis.utils.tokenView.vo.txeth;
 
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @lombok.Data
-public class TokenTokentrans {
+public class TxEth {
 
     /**
      * code
@@ -19,5 +17,5 @@ public class TokenTokentrans {
     /**
      * data
      */
-    private List<Data> data;
+    private Data data;
 }

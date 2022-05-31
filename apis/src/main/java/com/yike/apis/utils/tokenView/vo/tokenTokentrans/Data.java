@@ -1,4 +1,4 @@
-package com.yike.apis.utils.tokenView.vo;
+package com.yike.apis.utils.tokenView.vo.tokenTokentrans;
 
 import lombok.NoArgsConstructor;
 
@@ -60,6 +60,10 @@ public class Data {
      * value
      */
     private String value;
+    /**
+     * ethvalue
+     */
+    private String ethValue;
     /**
      * valueIsNft
      */

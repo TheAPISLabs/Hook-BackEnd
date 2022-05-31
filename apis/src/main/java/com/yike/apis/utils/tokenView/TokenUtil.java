@@ -2,20 +2,16 @@ package com.yike.apis.utils.tokenView;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.yike.apis.utils.tokenView.vo.Maincoinex.Maincoinex;
-import com.yike.apis.utils.tokenView.vo.TokenTokentrans;
+import com.yike.apis.utils.tokenView.vo.tokenTokentrans.TokenTokentrans;
 import com.yike.apis.utils.tokenView.vo.contract.Contract;
 import com.yike.apis.utils.tokenView.vo.normal.Normal;
-import com.yike.apis.utils.tokenView.vo.token.Data;
 import com.yike.apis.utils.tokenView.vo.token.Token;
 import com.yike.apis.utils.tokenView.vo.tokenEth.TokenEth;
 import com.yike.apis.utils.tokenView.vo.tokenbalance.TokenBalance;
 import com.yike.apis.utils.tokenView.vo.tokentrans.Tokentrans;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.yike.apis.utils.tokenView.vo.txeth.TxEth;
 
 public class TokenUtil {
     public static TokenBalance tokenbalance(String address){
@@ -50,6 +46,23 @@ public class TokenUtil {
             }
         }
         return tokenTokentrans;
+    }
+
+    public static TxEth txeth(String txid){
+        String str = HttpUtil.get(String.format(TokenViewApi.txeth,txid.toLowerCase()));
+        TxEth txEth = new TxEth();
+        Boolean flang = false;
+        //Retry mechanism,3 times
+        for(int i = 0;i < 4;i++){
+            if(flang){
+                break;
+            }
+            txEth = JSONUtil.toBean(str,TxEth.class);
+            if(ObjectUtil.isNotEmpty(txEth)){
+                flang = true;
+            }
+        }
+        return txEth;
     }
 
     public static Tokentrans tokentrans(String address, String tokenAddress, String start, String limit){

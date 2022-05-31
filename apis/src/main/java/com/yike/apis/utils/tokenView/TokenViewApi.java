@@ -9,4 +9,5 @@ public class TokenViewApi {
     final static String contract = "https://eth.tokenview.com/api/eth/contract/creator/%s";
     final static String tokenEth = "https://eth.tokenview.com/api/token/eth/%s";
     final static String tokenTokentrans = "https://eth.tokenview.com/api/eth/token/tokentrans/%s/%s/%s";
+    final static String txeth = "https://eth.tokenview.com/api/tx/eth/%s";
 }
