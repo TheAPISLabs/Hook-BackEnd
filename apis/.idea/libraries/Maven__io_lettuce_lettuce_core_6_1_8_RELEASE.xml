@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Maven: io.lettuce:lettuce-core:6.1.8.RELEASE">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../repository/io/lettuce/lettuce-core/6.1.8.RELEASE/lettuce-core-6.1.8.RELEASE.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -8,6 +9,15 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../repository/io/lettuce/lettuce-core/6.1.8.RELEASE/lettuce-core-6.1.8.RELEASE-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/../../repository/io/lettuce/lettuce-core/6.1.8.RELEASE/lettuce-core-6.1.8.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../repository/io/lettuce/lettuce-core/6.1.8.RELEASE/lettuce-core-6.1.8.RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../repository/io/lettuce/lettuce-core/6.1.8.RELEASE/lettuce-core-6.1.8.RELEASE-sources.jar!/" />
+>>>>>>> 3cf5501f8312aef9ef02e72bd9ca003478261021
     </SOURCES>
   </library>
 </component>

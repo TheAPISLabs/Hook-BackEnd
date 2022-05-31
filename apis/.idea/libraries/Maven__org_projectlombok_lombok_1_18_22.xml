@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Maven: org.projectlombok:lombok:1.18.22">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../repository/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -8,6 +9,15 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../repository/org/projectlombok/lombok/1.18.22/lombok-1.18.22-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/../../repository/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../repository/org/projectlombok/lombok/1.18.22/lombok-1.18.22-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../repository/org/projectlombok/lombok/1.18.22/lombok-1.18.22-sources.jar!/" />
+>>>>>>> 3cf5501f8312aef9ef02e72bd9ca003478261021
     </SOURCES>
   </library>
 </component>

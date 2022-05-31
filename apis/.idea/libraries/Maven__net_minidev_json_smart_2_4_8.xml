@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Maven: net.minidev:json-smart:2.4.8">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../repository/net/minidev/json-smart/2.4.8/json-smart-2.4.8.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -8,6 +9,15 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../repository/net/minidev/json-smart/2.4.8/json-smart-2.4.8-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/../../repository/net/minidev/json-smart/2.4.8/json-smart-2.4.8.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../repository/net/minidev/json-smart/2.4.8/json-smart-2.4.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../repository/net/minidev/json-smart/2.4.8/json-smart-2.4.8-sources.jar!/" />
+>>>>>>> 3cf5501f8312aef9ef02e72bd9ca003478261021
     </SOURCES>
   </library>
 </component>

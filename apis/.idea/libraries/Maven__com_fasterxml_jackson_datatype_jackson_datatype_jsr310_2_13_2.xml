@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.2/jackson-datatype-jsr310-2.13.2.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -8,6 +9,15 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.2/jackson-datatype-jsr310-2.13.2-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/../../repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.2/jackson-datatype-jsr310-2.13.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.2/jackson-datatype-jsr310-2.13.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.2/jackson-datatype-jsr310-2.13.2-sources.jar!/" />
+>>>>>>> 3cf5501f8312aef9ef02e72bd9ca003478261021
     </SOURCES>
   </library>
 </component>

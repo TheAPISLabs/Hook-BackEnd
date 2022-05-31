@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Maven: org.mybatis:mybatis-spring:2.0.5">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../repository/org/mybatis/mybatis-spring/2.0.5/mybatis-spring-2.0.5.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -8,6 +9,15 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../repository/org/mybatis/mybatis-spring/2.0.5/mybatis-spring-2.0.5-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/../../repository/org/mybatis/mybatis-spring/2.0.5/mybatis-spring-2.0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../repository/org/mybatis/mybatis-spring/2.0.5/mybatis-spring-2.0.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../repository/org/mybatis/mybatis-spring/2.0.5/mybatis-spring-2.0.5-sources.jar!/" />
+>>>>>>> 3cf5501f8312aef9ef02e72bd9ca003478261021
     </SOURCES>
   </library>
 </component>

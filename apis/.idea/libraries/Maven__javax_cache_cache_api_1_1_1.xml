@@ -1,6 +1,7 @@
 <component name="libraryTable">
   <library name="Maven: javax.cache:cache-api:1.1.1">
     <CLASSES>
+<<<<<<< HEAD
       <root url="jar://$PROJECT_DIR$/../../../repository/javax/cache/cache-api/1.1.1/cache-api-1.1.1.jar!/" />
     </CLASSES>
     <JAVADOC>
@@ -8,6 +9,15 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$PROJECT_DIR$/../../../repository/javax/cache/cache-api/1.1.1/cache-api-1.1.1-sources.jar!/" />
+=======
+      <root url="jar://$PROJECT_DIR$/../../repository/javax/cache/cache-api/1.1.1/cache-api-1.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../repository/javax/cache/cache-api/1.1.1/cache-api-1.1.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../repository/javax/cache/cache-api/1.1.1/cache-api-1.1.1-sources.jar!/" />
+>>>>>>> 3cf5501f8312aef9ef02e72bd9ca003478261021
     </SOURCES>
   </library>
 </component>
