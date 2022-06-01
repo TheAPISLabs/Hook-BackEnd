@@ -16,6 +16,8 @@ public class GameremarkVo {
 
     private String userName;
 
+    private Integer vip;
+
     private String parentUserName;
 
     private String userIcon;

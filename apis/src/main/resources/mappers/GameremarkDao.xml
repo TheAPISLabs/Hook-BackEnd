@@ -25,10 +25,11 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="time" jdbcType="BIGINT" property="time" />
     <result column="liked" jdbcType="BIGINT" property="liked" />
+    <result column="vip" jdbcType="INTEGER" property="vip" />
   </resultMap>
 
   <select id="getComments" resultMap="GameremarkVo">
-    SELECT a.*,b.userName,b.icon FROM gameremark a
+    SELECT a.*,b.userName,b.icon,b.vip FROM gameremark a
                                         LEFT JOIN `user` b ON a.uId = b.uId
                     ${ew.customSqlSegment}
   </select>

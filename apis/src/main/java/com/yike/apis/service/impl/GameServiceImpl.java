@@ -94,7 +94,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ResponseData getComments(String gpId, String uId,String sort,Integer page, Integer pageSize) {
+    public ResponseData getComments(String gpId, String uId,String sortField,String sort,Integer page, Integer pageSize) {
         if(ObjectUtil.isEmpty(page)){
             page = 1;
         }
@@ -106,10 +106,27 @@ public class GameServiceImpl implements GameService {
             wrapper.eq("gpId",gpId);
         }
         wrapper.eq("parentId","0");
-        if(ObjectUtil.isNotEmpty(sort) && sort.equals("asc")){
-            wrapper.orderByAsc("time");
-        }else {
-            wrapper.orderByDesc("time");
+        if(ObjectUtil.isNotEmpty(sortField)){
+            if(sortField.equalsIgnoreCase("Most Hot")){
+                if(ObjectUtil.isNotEmpty(sort) && sort.equals("asc")){
+                    wrapper.orderByAsc("liked");
+                }else {
+                    wrapper.orderByDesc("liked");
+                }
+            }else if(sortField.equalsIgnoreCase("Recent")){
+                if(ObjectUtil.isNotEmpty(sort) && sort.equals("asc")){
+                    wrapper.orderByAsc("time");
+                }else {
+                    wrapper.orderByDesc("time");
+                }
+            }else if(sortField.equalsIgnoreCase("Pass Holder")){
+                wrapper.orderByDesc("time");
+                if(ObjectUtil.isNotEmpty(sort) && sort.equals("asc")){
+                    wrapper.orderByAsc("vip");
+                }else {
+                    wrapper.orderByAsc("vip");
+                }
+            }
         }
         Page<GameremarkVo> iPage = new Page<GameremarkVo>(page, pageSize);
         Page<GameremarkVo> gameremarkVoPage = gameremarkDao.getComments(iPage,wrapper);
@@ -617,10 +634,10 @@ public class GameServiceImpl implements GameService {
             String img = "";
             img = gameproject.getImgUrl();
             Maincoinex maincoinex = TokenUtil.maincoinexchange();
+            tokenTokentrans.getData().stream().collect(
+                    Collectors.collectingAndThen(
+                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(com.yike.apis.utils.tokenView.vo.tokenTokentrans.Data::getTxid))), ArrayList::new));
             for(Data data:tokenTokentrans.getData()){
-                if(data.getImageUrl().equals("not found") || data.getImageUrl().equals("") || ObjectUtil.isEmpty(data.getImageUrl())){
-                    data.setImageUrl(img);
-                }
                 if(ObjectUtil.isNotEmpty(data.getValueIsNft())){
                     TxEth txEth = TokenUtil.txeth(data.getTxid());
                     if(ObjectUtil.isNotEmpty(txEth) && ObjectUtil.isNotEmpty(txEth.getData()) && txEth.getCode().equals(1)){
@@ -629,6 +646,9 @@ public class GameServiceImpl implements GameService {
                         data.setEthValue("0");
                     }
                 }else {
+                    if(data.getImageUrl().equals("not found") || data.getImageUrl().equals("") || ObjectUtil.isEmpty(data.getImageUrl())){
+                        data.setImageUrl(img);
+                    }
                     BigDecimal b = new BigDecimal(gameproject.getPrice()).multiply(new BigDecimal(data.getValue()).divide(BigDecimal.TEN.pow(new BigDecimal(data.getTokenInfo().getD()).intValue()),8,BigDecimal.ROUND_DOWN));
                     data.setEthValue(b.divide(new BigDecimal(maincoinex.getData().getEth()),8,BigDecimal.ROUND_DOWN).toPlainString());
                 }

@@ -62,14 +62,15 @@ public class GameController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "gpId", value = "gpId", required = true, dataType = "string"),
             @ApiImplicitParam(name = "uId", value = "uId", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "sortField", value = "ALL,Most Hot,Recent,Pass Holder", required = false, dataType = "string"),
             @ApiImplicitParam(name = "sort", value = "asc,desc", required = false, dataType = "string"),
             @ApiImplicitParam(name = "page", value = "page", required = false, dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "pageSize", required = false, dataType = "int")
     })
     @RequestMapping(value = "/getComments", method = RequestMethod.GET)
-    public ResponseData getComments(@RequestParam String gpId,@RequestParam(required = false) String uId,@RequestParam(required = false) String sort,
+    public ResponseData getComments(@RequestParam String gpId,@RequestParam(required = false) String uId,@RequestParam(required = false) String sortField,@RequestParam(required = false) String sort,
                                      @RequestParam(required = false) Integer page,@RequestParam(required = false) Integer pageSize){
-        return gameService.getComments(gpId,uId,sort,page,pageSize);
+        return gameService.getComments(gpId,uId,sortField,sort,page,pageSize);
     }
 
     @ApiOperation("Comment")

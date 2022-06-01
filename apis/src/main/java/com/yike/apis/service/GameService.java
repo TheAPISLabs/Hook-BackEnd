@@ -14,7 +14,7 @@ import java.util.List;
 public interface GameService {
     ResponseData getGameItems(String projectName,String sortField,String sort,Integer page, Integer pageSize);
 
-    ResponseData getComments(String gpId, String uId,String sort,Integer page, Integer pageSize);
+    ResponseData getComments(String gpId, String uId,String sortField,String sort,Integer page, Integer pageSize);
 
     ResponseData comment(Gameremark gameremark);
 
