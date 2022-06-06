@@ -199,35 +199,63 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ResponseData getGameIconByGpId(String gpId, String uId,Integer page, Integer pageSize) {
-        if(ObjectUtil.isEmpty(page)){
-            page = 1;
-        }
-        if(ObjectUtil.isEmpty(pageSize)){
-            pageSize = 20;
-        }
-        QueryWrapper<GameiconVo> wrapper = new QueryWrapper<>();
-        wrapper.eq("a.gpId",gpId);
-        Page<GameiconVo> iPage = new Page<GameiconVo>(page, pageSize);
-        Page<GameiconVo> gameiconVoPage = gameiconGameprojectUserDao.getGameIconByGpId(iPage,wrapper);
-        List<GameiconVo> list1 = gameiconDao.selectListGameiconVo();
-        List<GameiconVo> list = new ArrayList<>();
-        if(ObjectUtil.isNotEmpty(gameiconVoPage.getRecords())){
-            for(GameiconVo gameiconVo:gameiconVoPage.getRecords()){
-                if(ObjectUtil.isNotEmpty(gameiconVo.getUserIcons()) && ObjectUtil.isNotEmpty(uId)){
-                    List<com.yike.apis.pojo.game.vo.UserVo> userIcons = gameiconVo.getUserIcons();
-                    boolean b = userIcons.stream().anyMatch(s -> s.getUId().equals(uId));
+//        if(ObjectUtil.isEmpty(page)){
+//            page = 1;
+//        }
+//        if(ObjectUtil.isEmpty(pageSize)){
+//            pageSize = 20;
+//        }
+//        QueryWrapper<GameiconVo> wrapper = new QueryWrapper<>();
+//        wrapper.eq("a.gpId",gpId);
+//        Page<GameiconVo> iPage = new Page<GameiconVo>(page, pageSize);
+//        Page<GameiconVo> gameiconVoPage = gameiconGameprojectUserDao.getGameIconByGpId(iPage,wrapper);
+//        List<GameiconVo> list1 = gameiconDao.selectListGameiconVo();
+//        List<GameiconVo> list = new ArrayList<>();
+//        if(ObjectUtil.isNotEmpty(gameiconVoPage.getRecords())){
+//            for(GameiconVo gameiconVo:gameiconVoPage.getRecords()){
+//                if(ObjectUtil.isNotEmpty(gameiconVo.getUserIcons()) && ObjectUtil.isNotEmpty(uId)){
+//                    List<com.yike.apis.pojo.game.vo.UserVo> userIcons = gameiconVo.getUserIcons();
+//                    boolean b = userIcons.stream().anyMatch(s -> s.getUId().equals(uId));
+//                    gameiconVo.setIsLiked(b);
+//                }
+//            }
+//            list.addAll(gameiconVoPage.getRecords());
+//        }
+//        if(ObjectUtil.isNotEmpty(list1)){
+//            list.addAll(list1);
+//        }
+//        ArrayList<GameiconVo> mergeList3 = list.stream().collect(
+//                Collectors.collectingAndThen(
+//                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(GameiconVo::getGiId))), ArrayList::new));
+//        gameiconVoPage.setRecords(mergeList3);
+//        return ResponseDataUtil.buildSuccess(gameiconVoPage);
+        List<GameiconVo> list = gameiconDao.selectListGameiconVo();
+        if(ObjectUtil.isNotEmpty(list)){
+            List<UserVo> userVos = gameiconGameprojectUserDao.getUserIcons(gpId);
+            if(ObjectUtil.isNotEmpty(userVos)){
+                for(GameiconVo gameiconVo:list){
+                    gameiconVo.setUserIcons(userVos.stream().filter(s -> s.getGiId().equals(gameiconVo.getGiId())).collect(Collectors.toList()));
+                    boolean b = userVos.stream().anyMatch(s -> s.getUId().equals(uId));
                     gameiconVo.setIsLiked(b);
                 }
             }
-            list.addAll(gameiconVoPage.getRecords());
         }
-        if(ObjectUtil.isNotEmpty(list1)){
-            list.addAll(list1);
+        if(ObjectUtil.isEmpty(page) || page <= 0){
+            page = 1;
         }
-        ArrayList<GameiconVo> mergeList3 = list.stream().collect(
-                Collectors.collectingAndThen(
-                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(GameiconVo::getGiId))), ArrayList::new));
-        gameiconVoPage.setRecords(mergeList3);
+        if(ObjectUtil.isEmpty(pageSize) || pageSize < 1){
+            pageSize = 20;
+        }
+        Page<GameiconVo> gameiconVoPage = new Page<>();
+        int total = list.size();
+        int pageSum = total%pageSize==0?total/pageSize:total/pageSize+1;
+        list = list.stream().skip((page-1)*pageSize).limit(pageSize).
+                collect(Collectors.toList());
+        gameiconVoPage.setRecords(list);
+        gameiconVoPage.setTotal(total);
+        gameiconVoPage.setSize(pageSize);
+        gameiconVoPage.setCurrent(page);
+        gameiconVoPage.setPages(pageSum);
         return ResponseDataUtil.buildSuccess(gameiconVoPage);
     }
 
@@ -314,10 +342,10 @@ public class GameServiceImpl implements GameService {
         for (Gameprojectlinked like : list) {
             Gameprojectlinked ul = getByLikedUserIdAndLikedGpId2(like.getLinkedGameprojectId(), like.getLinkedUserId());
             if (ul == null){
-                //没有记录，直接存入
+                //No record, direct deposit
                 save(like);
             }else{
-                //有记录，需要更新
+                //There are records and they need to be updated
                 ul.setStatus(like.getStatus());
                 save(ul);
             }
@@ -330,12 +358,12 @@ public class GameServiceImpl implements GameService {
         List<LikedCountVo> list = redisUtil.getLikedCountFromRedis();
         for (LikedCountVo dto : list) {
             Gameproject gameproject = gameprojectDao.selectById(dto.getLinkedGameprojectId());
-            //点赞数量属于无关紧要的操作，出错无需抛异常
+            //The number of likes belongs to an insignificant operation, and there is no need to throw an exception if an error occurs
             if (gameproject != null){
                 Long likeNum = gameproject.getLiked() + dto.getCount();
                 gameproject.setLiked(likeNum);
                 gameproject.setMoon(likeNum);
-                //更新点赞数量
+                //Update the number of likes
                 gameprojectDao.updateById(gameproject);
             }
         }
@@ -343,11 +371,11 @@ public class GameServiceImpl implements GameService {
         List<LikedCountVo> list1 = redisUtil.getRoorCountFromRedis();
         for (LikedCountVo dto : list1) {
             Gameproject gameproject = gameprojectDao.selectById(dto.getLinkedGameprojectId());
-            //点赞数量属于无关紧要的操作，出错无需抛异常
+            //The number of likes belongs to an insignificant operation, and there is no need to throw an exception if an error occurs
             if (gameproject != null){
                 Long roorNum = gameproject.getLiked() + dto.getCount();
                 gameproject.setNgmi(roorNum);
-                //更新点赞数量
+                //Update the number of likes
                 gameprojectDao.updateById(gameproject);
             }
         }
@@ -355,6 +383,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ResponseData liked(LikedVo likedVo) {
+        if(ObjectUtil.isEmpty(likedVo) || ObjectUtil.isEmpty(likedVo.getLikedGpId())
+                || ObjectUtil.isEmpty(likedVo.getLikedUserId()) || ObjectUtil.isEmpty(likedVo.getStatus())){
+            return ResponseDataUtil.buildError("Pass and abnormal");
+        }
         if(likedVo.getStatus() == 1){
             redisUtil.saveLiked2Redis(likedVo.getLikedGpId(), likedVo.getLikedUserId());
             redisUtil.incrementLikedCount(likedVo.getLikedGpId());
@@ -506,7 +538,7 @@ public class GameServiceImpl implements GameService {
         wrapper.eq("giId",gameiconGameprojectUser.getGiId());
         wrapper.eq("uId",gameiconGameprojectUser.getUId());
         wrapper.eq("gpId",gameiconGameprojectUser.getGpId());
-        GameiconGameprojectUser gameiconGameprojectUser1 = gameiconGameprojectUserDao.selectOne(wrapper);
+        List<GameiconGameprojectUser> gameiconGameprojectUser1 = gameiconGameprojectUserDao.selectList(wrapper);
         if(ObjectUtil.isNotEmpty(gameiconGameprojectUser1)) {
             redisUtil.unlock(redisson,gameiconGameprojectUser.getGpId()+gameiconGameprojectUser.getGiId()+gameiconGameprojectUser.getUId());
             return ResponseDataUtil.buildError("Please do not like the icon repeatedly");
@@ -588,10 +620,14 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ResponseData commentLiked(CommentLikedVo commentLikedVo) {
+        if(ObjectUtil.isEmpty(commentLikedVo) || ObjectUtil.isEmpty(commentLikedVo.getGrId())
+            || ObjectUtil.isNotEmpty(commentLikedVo.getUId()) || ObjectUtil.isNotEmpty(commentLikedVo.getStatus())){
+            return ResponseDataUtil.buildError("Please do not double like");
+        }
         if(ObjectUtil.isNotEmpty(commentLikedVo) && commentLikedVo.getStatus().equals(1)){
             Boolean bo = redisTemplate.opsForHash().hasKey(commentLikedVo.getGrId(),commentLikedVo.getUId());
             if(bo){
-                return ResponseDataUtil.buildError("Please do not double like");
+                return ResponseDataUtil.buildError("Pass and abnormal");
             }
             Double b = redisUtil.score(comment_liked_key,commentLikedVo.getGrId());
             if(ObjectUtil.isNotEmpty(b)){
@@ -646,11 +682,11 @@ public class GameServiceImpl implements GameService {
                         data.setEthValue("0");
                     }
                 }else {
-                    if(data.getImageUrl().equals("not found") || data.getImageUrl().equals("") || ObjectUtil.isEmpty(data.getImageUrl())){
-                        data.setImageUrl(img);
-                    }
                     BigDecimal b = new BigDecimal(gameproject.getPrice()).multiply(new BigDecimal(data.getValue()).divide(BigDecimal.TEN.pow(new BigDecimal(data.getTokenInfo().getD()).intValue()),8,BigDecimal.ROUND_DOWN));
                     data.setEthValue(b.divide(new BigDecimal(maincoinex.getData().getEth()),8,BigDecimal.ROUND_DOWN).toPlainString());
+                }
+                if(data.getImageUrl().equals("not found") || data.getImageUrl().equals("") || ObjectUtil.isEmpty(data.getImageUrl())){
+                    data.setImageUrl(img);
                 }
             }
         }
@@ -666,11 +702,12 @@ public class GameServiceImpl implements GameService {
         wrapper.eq("giId",gameiconGameprojectUser.getGiId());
         wrapper.eq("uId",gameiconGameprojectUser.getUId());
         wrapper.eq("gpId",gameiconGameprojectUser.getGpId());
-        GameiconGameprojectUser gameiconGameprojectUser1 = gameiconGameprojectUserDao.selectOne(wrapper);
+        List<GameiconGameprojectUser> gameiconGameprojectUser1 = gameiconGameprojectUserDao.selectList(wrapper);
         if(ObjectUtil.isEmpty(gameiconGameprojectUser1)){
             return ResponseDataUtil.buildError("The value anomaly");
         }
-        int i = gameiconGameprojectUserDao.deleteById(gameiconGameprojectUser1.getGiuId());
+        List<String> ids = gameiconGameprojectUser1.stream().map(s -> s.getGiuId()).collect(Collectors.toList());
+        int i = gameiconGameprojectUserDao.deleteBatchIds(ids);
         if(i < 1){
             return ResponseDataUtil.buildError();
         }

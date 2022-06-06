@@ -30,10 +30,16 @@
   </resultMap>
 
 
+<!--  <select id="getUserIcons" resultType="com.yike.apis.pojo.game.vo.UserVo">-->
+<!--    SELECT b.icon AS "userIcon",b.uId FROM gameicon_gameproject_user a-->
+<!--                         LEFT JOIN `user` b ON a.uId = b.uId-->
+<!--            WHERE a.giId = #{giId}-->
+<!--  </select>-->
+
   <select id="getUserIcons" resultType="com.yike.apis.pojo.game.vo.UserVo">
-    SELECT b.icon AS "userIcon",b.uId FROM gameicon_gameproject_user a
-                         LEFT JOIN `user` b ON a.uId = b.uId
-            WHERE a.giId = #{giId}
+    SELECT b.icon AS "userIcon",b.uId,a.giId FROM gameicon_gameproject_user a
+                                             LEFT JOIN `user` b ON a.uId = b.uId
+    WHERE a.gpId = #{gpId}
   </select>
 
   <select id="getGameIconByGpId" parameterType="java.lang.String" resultMap="GameiconVo">
