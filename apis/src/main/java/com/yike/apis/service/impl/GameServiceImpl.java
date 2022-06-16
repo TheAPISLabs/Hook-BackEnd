@@ -21,12 +21,12 @@ import com.yike.apis.utils.reponseUtil.ResponseData;
 import com.yike.apis.utils.reponseUtil.ResponseDataUtil;
 import com.yike.apis.dao.game.GameprojectlinkedDao;
 import com.yike.apis.utils.tokenView.TokenUtil;
-import com.yike.apis.utils.tokenView.vo.Maincoinex.Maincoinex;
-import com.yike.apis.utils.tokenView.vo.tokenTokentrans.TokenTokentrans;
-import com.yike.apis.utils.tokenView.vo.normal.Normal;
-import com.yike.apis.utils.tokenView.vo.tokenEth.TokenEth;
-import com.yike.apis.utils.tokenView.vo.tokenTokentrans.Data;
-import com.yike.apis.utils.tokenView.vo.txeth.TxEth;
+import com.yike.apis.utils.tokenView.vo.Websearch.Maincoinex.Maincoinex;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenTokentrans.TokenTokentrans;
+import com.yike.apis.utils.tokenView.vo.Websearch.normal.Normal;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenEth.TokenEth;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenTokentrans.Data;
+import com.yike.apis.utils.tokenView.vo.Websearch.txeth.TxEth;
 import com.yike.apis.utils.twtter.TwtterApi;
 import com.yike.apis.utils.twtter.TwtterUtil;
 import com.yike.apis.utils.twtter.vo.searchAdaptive.SearchAdaptive;
@@ -235,7 +235,7 @@ public class GameServiceImpl implements GameService {
             if(ObjectUtil.isNotEmpty(userVos)){
                 for(GameiconVo gameiconVo:list){
                     gameiconVo.setUserIcons(userVos.stream().filter(s -> s.getGiId().equals(gameiconVo.getGiId())).collect(Collectors.toList()));
-                    boolean b = userVos.stream().anyMatch(s -> s.getUId().equals(uId));
+                    boolean b = gameiconVo.getUserIcons().stream().anyMatch(s -> s.getUId().equals(uId));
                     gameiconVo.setIsLiked(b);
                 }
             }
@@ -601,7 +601,7 @@ public class GameServiceImpl implements GameService {
             if(gameproject.getSpecies().equals("defi")){
                 img = gameproject.getImgUrl();
             }
-            for(com.yike.apis.utils.tokenView.vo.normal.Data data:normal.getData()){
+            for(com.yike.apis.utils.tokenView.vo.Websearch.normal.Data data:normal.getData()){
                 if(img.equals("")){
                     data.setImgUrl(img);
                 }else {
@@ -670,9 +670,10 @@ public class GameServiceImpl implements GameService {
             String img = "";
             img = gameproject.getImgUrl();
             Maincoinex maincoinex = TokenUtil.maincoinexchange();
-            tokenTokentrans.getData().stream().collect(
+            List<Data> datas = tokenTokentrans.getData().stream().collect(
                     Collectors.collectingAndThen(
-                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(com.yike.apis.utils.tokenView.vo.tokenTokentrans.Data::getTxid))), ArrayList::new));
+                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(com.yike.apis.utils.tokenView.vo.Websearch.tokenTokentrans.Data::getTxid))), ArrayList::new));
+            tokenTokentrans.setData(datas);
             for(Data data:tokenTokentrans.getData()){
                 if(ObjectUtil.isNotEmpty(data.getValueIsNft())){
                     TxEth txEth = TokenUtil.txeth(data.getTxid());

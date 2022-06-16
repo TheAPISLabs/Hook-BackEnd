@@ -3,15 +3,15 @@ package com.yike.apis.utils.tokenView;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.yike.apis.utils.tokenView.vo.Maincoinex.Maincoinex;
-import com.yike.apis.utils.tokenView.vo.tokenTokentrans.TokenTokentrans;
-import com.yike.apis.utils.tokenView.vo.contract.Contract;
-import com.yike.apis.utils.tokenView.vo.normal.Normal;
-import com.yike.apis.utils.tokenView.vo.token.Token;
-import com.yike.apis.utils.tokenView.vo.tokenEth.TokenEth;
-import com.yike.apis.utils.tokenView.vo.tokenbalance.TokenBalance;
-import com.yike.apis.utils.tokenView.vo.tokentrans.Tokentrans;
-import com.yike.apis.utils.tokenView.vo.txeth.TxEth;
+import com.yike.apis.utils.tokenView.vo.Websearch.Maincoinex.Maincoinex;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenTokentrans.TokenTokentrans;
+import com.yike.apis.utils.tokenView.vo.Websearch.contract.Contract;
+import com.yike.apis.utils.tokenView.vo.Websearch.normal.Normal;
+import com.yike.apis.utils.tokenView.vo.Websearch.token.Token;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenEth.TokenEth;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenbalance.TokenBalance;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokentrans.Tokentrans;
+import com.yike.apis.utils.tokenView.vo.Websearch.txeth.TxEth;
 
 public class TokenUtil {
     public static TokenBalance tokenbalance(String address){

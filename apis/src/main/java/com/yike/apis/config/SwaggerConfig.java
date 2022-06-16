@@ -31,7 +31,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("The API documentation")
-                .description("API Gateway Interface,http://")
+                .description("API Gateway Interface,https://")
                 .termsOfServiceUrl("http://1.1.1.1:8898/swagger-ui.html")
                 .version("3.0.0")
                 .build();

@@ -9,4 +9,6 @@ public class Coinmarketcap {
             "tagSlugs=%S";
 
     final static String nft = "https://api.coinmarketcap.com/data-api/v3/nft/collections?start=%s&limit=%s&blockchain=Ethereum&sort=volume&desc=true&period=1";
+
+    final static String chart = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart?id=%s&range=3M";
 }

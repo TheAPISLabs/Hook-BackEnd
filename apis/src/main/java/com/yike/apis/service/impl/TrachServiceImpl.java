@@ -16,12 +16,12 @@ import com.yike.apis.utils.Coinmarketcap.vo.nft.NftData;
 import com.yike.apis.utils.reponseUtil.ResponseData;
 import com.yike.apis.utils.reponseUtil.ResponseDataUtil;
 import com.yike.apis.utils.tokenView.TokenUtil;
-import com.yike.apis.utils.tokenView.vo.contract.Contract;
-import com.yike.apis.utils.tokenView.vo.normal.Normal;
-import com.yike.apis.utils.tokenView.vo.token.Data;
-import com.yike.apis.utils.tokenView.vo.token.Token;
-import com.yike.apis.utils.tokenView.vo.tokenbalance.TokenBalance;
-import com.yike.apis.utils.tokenView.vo.tokentrans.Tokentrans;
+import com.yike.apis.utils.tokenView.vo.Websearch.contract.Contract;
+import com.yike.apis.utils.tokenView.vo.Websearch.normal.Normal;
+import com.yike.apis.utils.tokenView.vo.Websearch.token.Data;
+import com.yike.apis.utils.tokenView.vo.Websearch.token.Token;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokenbalance.TokenBalance;
+import com.yike.apis.utils.tokenView.vo.Websearch.tokentrans.Tokentrans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -171,7 +171,7 @@ public class TrachServiceImpl implements TrachService {
             SearchHeat searchHeat = searchHeatDao.selectOne(wrapper);
             int i = 0;
             if(ObjectUtil.isNotEmpty(normal) && ObjectUtil.isNotEmpty(normal.getData())){
-                for(com.yike.apis.utils.tokenView.vo.normal.Data data:normal.getData()){
+                for(com.yike.apis.utils.tokenView.vo.Websearch.normal.Data data:normal.getData()){
                     if(ObjectUtil.isEmpty(searchHeat) || (ObjectUtil.isNotEmpty(searchHeat.getBlockno()) && searchHeat.getBlockno() >= data.getBlockNo())){
                         break;
                     }

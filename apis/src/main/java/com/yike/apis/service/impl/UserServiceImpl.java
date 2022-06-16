@@ -72,6 +72,7 @@ public class UserServiceImpl implements UserService {
         }
         User user1 = new User();
         String ip = IpHelper.getIpAddr(request);
+        user1.setIcon("https://storage.googleapis.com/bimboss/hook_game_img/duitang.webp");
         user1.setUId(IdUtil.simpleUUID());
         user1.setLastLoginTime(System.currentTimeMillis());
         user1.setAddress(userVo.getAddress());
@@ -288,27 +289,23 @@ public class UserServiceImpl implements UserService {
                 "  <body>\n" +
                 "    <div>\n" +
                 "      <includetail>\n" +
-                "        <div\n" +
-                "          style=\"\n" +
-                "            background-color: #e5e5e5;\n" +
-                "            padding-top: 96px;\n" +
-                "            padding-bottom: 96px;\n" +
-                "          \"\n" +
-                "        >\n" +
+                "        <div style=\"background-color:#E5E5E5 ; padding-top: 96px; padding-bottom: 96px;\">\n" +
                 "          <div\n" +
                 "            style=\"\n" +
                 "              background-color: #fff;\n" +
                 "              margin: auto;\n" +
                 "              border-radius: 17px;\n" +
-                "              margin-bottom: 50px;\n" +
+                "              \n" +
                 "              width: 923px;\n" +
                 "              height: 722px;\n" +
                 "            \"\n" +
                 "          >\n" +
-                "            <div style=\"text-align: center\">\n" +
+                "            <div style=\"text-align: center;\">\n" +
                 "              <img\n" +
-                "                style=\"width: 101px; height: 101px; margin-top: 61px\"\n" +
-                "                src=\"https://www.runoob.com/wp-content/uploads/2014/07/gradient_linear.png\"\n" +
+                "                style=\"width: 101px; height: 101px;\n" +
+                "                margin-top: 61px;\n" +
+                "            \"\n" +
+                "                src=\"https://storage.googleapis.com/bimboss/hook_game_img/457b77d60e431c8b5fca797fc10702c.png\"\n" +
                 "                alt=\"\"\n" +
                 "              />\n" +
                 "            </div>\n" +
@@ -325,11 +322,11 @@ public class UserServiceImpl implements UserService {
                 "                margin-bottom: 50px;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              Verify your account\n" +
+                "              Password Reset\n" +
                 "            </div>\n" +
                 "            <div\n" +
                 "              style=\"\n" +
-                "                width: 322px;\n" +
+                "                width: 600px;\n" +
                 "                font-style: normal;\n" +
                 "                font-weight: 400;\n" +
                 "                font-size: 24px;\n" +
@@ -338,43 +335,65 @@ public class UserServiceImpl implements UserService {
                 "                letter-spacing: -0.48px;\n" +
                 "                color: #010101;\n" +
                 "                margin: auto;\n" +
+                "\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              Here is your link for \"Reset password\"\n" +
+                "              If you've lost your password or wish to reset it,use the link below to get started\n" +
                 "            </div>\n" +
                 "            <div\n" +
                 "              style=\"\n" +
-                "                width: 566px;\n" +
-                "                height: 86px;\n" +
-                "                background: #f1f2f6;\n" +
+                "                width: 200px;\n" +
+                "                height: 50px;\n" +
+                "                background: #7551ff;\n" +
                 "                border-radius: 10px;\n" +
                 "                margin: auto;\n" +
                 "                margin-top: 30px;\n" +
-                "                text-align: center;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              <a\n" +
-                "                href=\""+url+"\"\n" +
-                "                target=\"_blank\"\n" +
-                "                rel=\"noopener noreferrer\"\n" +
-                "                style=\"color: blue; line-height: 86px\"\n" +
+                "              <p\n" +
+                "                style=\"\n" +
+                "                  font-style: normal;\n" +
+                "                  font-weight: 400;\n" +
+                "                  font-size: 15px;\n" +
+                "                  line-height: 50px;\n" +
+                "                  text-align: center;\n" +
+                "                  letter-spacing: -0.48px;\n" +
+                "                  color: #7551ff;\n" +
+                "                \"\n" +
                 "              >\n" +
-                ""+url+"\n" +
-                "              </a>\n" +
+                "                <a\n" +
+                "                  href=\"\n" +
+                                    url+
+                "                  \"\n" +
+                "                  style=\"display: block;\n" +
+                "                  width: 80%;\n" +
+                "                  text-decoration: none;\n" +
+                "                  height: 100%;\n" +
+                "                  margin-left: 10%;\n" +
+                "                  font-weight: 800;\n" +
+                "                  color: white;\n" +
+                "                  overflow:hidden;\n" +
+                "                  \"\n" +
+                "                  >\n" +
+                "                    Reset Your Password\n" +
+                "                  </a>\n" +
+                "              </p>\n" +
                 "            </div>\n" +
                 "            <div\n" +
                 "              style=\"\n" +
                 "                font-style: normal;\n" +
                 "                font-weight: 400;\n" +
-                "                font-size: 24px;\n" +
+                "                font-size: 18px;\n" +
                 "                line-height: 29px;\n" +
                 "                text-align: center;\n" +
                 "                letter-spacing: -0.48px;\n" +
-                "                color: #010101;\n" +
+                "                color: #00000091;\n" +
+                "                width: 92%;\n" +
+                "                margin: auto;\n" +
                 "                margin-top: 50px;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              Please enter this code to verify your identity and sign in.\n" +
+                "              If you did not requset a password reset,you can safely ignore this wmail. Only a person with access to ypur email can reset your account password.\n" +
                 "            </div>\n" +
                 "            <div\n" +
                 "              style=\"\n" +
@@ -387,15 +406,17 @@ public class UserServiceImpl implements UserService {
                 "                margin-top: 50px;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              <a href=\"\">Contact us </a>\n" +
+                "              <a href=\"https://www.theapis.xyz/contact\">Contact us </a>\n" +
                 "            </div>\n" +
                 "          </div>\n" +
                 "          <div\n" +
                 "            style=\"\n" +
+                "              margin: auto;\n" +
+                "              margin-top: 57px;\n" +
                 "              width: 1062px;\n" +
                 "              display: flex;\n" +
                 "              justify-content: space-around;\n" +
-                "              margin: auto;\n" +
+                "              \n" +
                 "            \"\n" +
                 "          >\n" +
                 "            <div\n" +
@@ -409,7 +430,7 @@ public class UserServiceImpl implements UserService {
                 "                color: #010101;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              @ copyright 2019 virtru corporation\n" +
+                "              @ copyright 2022 Hook\n" +
                 "            </div>\n" +
                 "            <div style=\"color: #aaaaaa; font-size: 24px\">|</div>\n" +
                 "            <div\n" +
@@ -423,7 +444,7 @@ public class UserServiceImpl implements UserService {
                 "                color: #4112d1;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              <a href=\"\">terms of service</a>\n" +
+                "              <a href=\"https://docs.theapis.xyz/readme/docs/terms-and-conditions\">terms of service</a>\n" +
                 "            </div>\n" +
                 "            <div style=\"color: #aaaaaa; font-size: 24px\">|</div>\n" +
                 "            <div\n" +
@@ -437,7 +458,7 @@ public class UserServiceImpl implements UserService {
                 "                color: #4112d1;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              <a href=\"\">privacy policy.</a>\n" +
+                "              <a href=\"https://docs.theapis.xyz/readme/docs/privacy-policy\">privacy policy.</a>\n" +
                 "            </div>\n" +
                 "            <div style=\"color: #aaaaaa; font-size: 24px\">|</div>\n" +
                 "            <div\n" +
@@ -451,7 +472,7 @@ public class UserServiceImpl implements UserService {
                 "                color: #4112d1;\n" +
                 "              \"\n" +
                 "            >\n" +
-                "              <a href=\"\">about virtru</a>\n" +
+                "              <a href=\"https://www.hook.cool/\">about Hook</a>\n" +
                 "            </div>\n" +
                 "            <div style=\"color: #aaaaaa; font-size: 24px\">|</div>\n" +
                 "            <div\n" +
@@ -472,7 +493,7 @@ public class UserServiceImpl implements UserService {
                 "      </includetail>\n" +
                 "    </div>\n" +
                 "  </body>\n" +
-                "</html>";
+                "</html>\n";
         String b = MailUtil.send(userVo.getEmail(),
                 "APIS",
                 html,
@@ -485,9 +506,7 @@ public class UserServiceImpl implements UserService {
         SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, key);
         //解密为字符串
         String decryptStr = aes.decryptStr(userVo.getUId(), CharsetUtil.CHARSET_UTF_8);
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("email",decryptStr);
-        User user = userDao.selectOne(wrapper);
+        User user = userDao.selectById(decryptStr);
         if(ObjectUtil.isEmpty(user)){
             return ResponseDataUtil.buildError("No user");
         }

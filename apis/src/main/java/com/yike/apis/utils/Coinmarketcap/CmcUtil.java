@@ -5,6 +5,9 @@ import cn.hutool.json.JSONUtil;
 import com.yike.apis.utils.Coinmarketcap.vo.defi.CmcDate;
 import com.yike.apis.utils.Coinmarketcap.vo.nft.NftData;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CmcUtil {
     /**
      * Obtaining CMC Data
@@ -45,6 +48,24 @@ public class CmcUtil {
             }
         }
         return nftData;
+    }
+
+    public static Map chart(String id){
+        String str = HttpUtil.get(String.format(Coinmarketcap.chart,id));
+        Map map = new HashMap();
+        Boolean flang = false;
+        //Retry mechanism,3 times
+        for(int i = 0;i < 4;i++){
+            if(flang){
+                break;
+            }
+            map = JSONUtil.toBean(str,Map.class);
+            Map map1 = (Map) map.get("status");
+            if(map1.get("error_message").toString().equalsIgnoreCase("SUCCESS")){
+                flang = true;
+            }
+        }
+        return map;
     }
 
     public static void main(String[] args) {
