@@ -4,16 +4,16 @@ server:
   port: 8898
   ssl:
     enabled: true
-    key-store: classpath:XXX # The certificate file
-    key-store-password: XXX  # password
-    key-store-type: XXX # Keystore type
+    key-store: classpath:api.hook.cool.jks # The certificate file
+    key-store-password: dev_apis  # password
+    key-store-type: JKS # Keystore type
 
 spring:
   config:
     location: application.yml
   redis:
-    host: XXX     #Redis server IP address
-    port: XXX      #Redis service port
+    host: 34.135.184.222     #Redis server IP address
+    port: 6380      #Redis service port
     timeout: 5000
     jedis:
       pool:
@@ -21,12 +21,12 @@ spring:
         max-idle: 500
         max-wait: -1ms
         min-idle: 0
-    password: XXX
+    password: dev_yike
     database: 1
   datasource:
-    url: jdbc:mysql://XXX:XXX/apis?serverTimezone=UTC&SSL=false&characterEncoding=UTF-8&allowMultiQueries=true
-    username: XXX        #Mysql database account
-    password: XXX        #Password of the mysql database
+    url: jdbc:mysql://34.135.184.222:3389/apis?serverTimezone=UTC&SSL=false&characterEncoding=UTF-8&allowMultiQueries=true
+    username: apis        #Mysql database account
+    password: dev_apis        #Password of the mysql database
     max-active: 30
     max-idle: 16
     min-idle: 10
@@ -42,9 +42,9 @@ spring:
     #Set the validity period of idle connections in the connection pool to 30 minutes
     min-evictable-idle-time-millis: 1800000
     druid:
-      url: jdbc:mysql://XXX:XXX/apis?serverTimezone=UTC&SSL=false&characterEncoding=UTF-8&allowMultiQueries=true
-      username: XXX        #Mysql database account
-      password: XXX        #Password of the mysql database
+      url: jdbc:mysql://34.135.184.222:3389/apis?serverTimezone=UTC&SSL=false&characterEncoding=UTF-8&allowMultiQueries=true
+      username: apis        #Mysql database account
+      password: dev_apis        #Password of the mysql database
       driver-class-name: com.mysql.jdbc.Driver
       initialSize: 5
       minIdle: 5
@@ -115,9 +115,9 @@ secure:
       -/**/*.js
       -/swagger-resources/**
 
-forgotPasswordLink: <h1>【APIS】 Reset password link：<a href="http://192.168.31.216:3000/#/auth/lock/default" target="_blank" rel="noopener noreferrer">http://192.168.31.216:3000/#/auth/lock/default</a></h1>
+forgotPasswordLink: https://hook.cool/#/auth/lock/default
 
 
 redisson:
-  address: XXX     #Redisson service address (single-node mode)
-  password: XXX       #password
+  address: redis://34.135.184.222:6380     #Redisson service address (single-node mode)
+  password: dev_yike       #password

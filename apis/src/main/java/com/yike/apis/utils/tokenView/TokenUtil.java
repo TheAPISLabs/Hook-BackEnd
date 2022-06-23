@@ -12,6 +12,8 @@ import com.yike.apis.utils.tokenView.vo.Websearch.tokenEth.TokenEth;
 import com.yike.apis.utils.tokenView.vo.Websearch.tokenbalance.TokenBalance;
 import com.yike.apis.utils.tokenView.vo.Websearch.tokentrans.Tokentrans;
 import com.yike.apis.utils.tokenView.vo.Websearch.txeth.TxEth;
+import com.yike.apis.utils.tokenView.vo.address.Address;
+import com.yike.apis.utils.feixiaohao.vo.holders.Holders;
 
 public class TokenUtil {
     public static TokenBalance tokenbalance(String address){
@@ -148,6 +150,23 @@ public class TokenUtil {
             }
         }
         return contract;
+    }
+
+    public static Address address(String address){
+        String str = HttpUtil.get(String.format(TokenViewApi.address,address.toLowerCase()));
+        Address address1 = new Address();
+        Boolean flang = false;
+        //Retry mechanism,3 times
+        for(int i = 0;i < 4;i++){
+            if(flang){
+                break;
+            }
+            address1 = JSONUtil.toBean(str,Address.class);
+            if(ObjectUtil.isNotEmpty(address1)){
+                flang = true;
+            }
+        }
+        return address1;
     }
 
     public static TokenEth tokenEth(String address){

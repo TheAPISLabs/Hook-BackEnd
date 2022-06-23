@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import com.yike.apis.utils.feixiaohao.vo.holders.Holders;
 import com.yike.apis.utils.tokenView.vo.Websearch.Coinlist;
 import com.yike.apis.utils.tokenView.vo.Websearch.Websearch;
 import com.yike.apis.utils.tokenView.vo.charts.Charts;
@@ -47,6 +48,23 @@ public class FeiXiaoHaoUtil {
         return charts;
     }
 
+    public static Holders holders(String code){
+        String str = HttpUtil.get(String.format(FeiXiaoHaoApi.holders,code.toLowerCase()));
+        Holders holders = new Holders();
+        Boolean flang = false;
+        //Retry mechanism,3 times
+        for(int i = 0;i < 4;i++){
+            if(flang){
+                break;
+            }
+            holders = JSONUtil.toBean(str,Holders.class);
+            if(ObjectUtil.isNotEmpty(holders)){
+                flang = true;
+            }
+        }
+        return holders;
+    }
+
     public static Charts chartsV2(String code,String name){
         Websearch websearch = websearch(code);
         if(ObjectUtil.isNotEmpty(websearch) && websearch.getCode().equals(200)){
@@ -74,12 +92,13 @@ public class FeiXiaoHaoUtil {
     }
 
     public static void main(String[] args) {
-        Charts charts = chartsV2("AGI","SingularityNET Token");
-        String value = charts.getValue();
-        value = "["+value+"]";
-        System.out.println(value);
-        JSONArray jsonArray = JSONUtil.parseArray(value);
-        List<List> list1 = JSONUtil.toList(jsonArray,List.class);
-        System.out.println(list1.get(0).get(2));
+        Long addrcount = 0L;
+        Holders holders = holders("ethereum");
+        if(ObjectUtil.isNotEmpty(holders) && holders.getCode().equals(200)){
+            if(ObjectUtil.isNotEmpty(holders.getData()) && ObjectUtil.isNotEmpty(holders.getData().getTop())){
+                addrcount = holders.getData().getTop().getAddrcount();
+            }
+        }
+        System.out.println(addrcount);
     }
 }
