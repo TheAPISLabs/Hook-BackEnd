@@ -370,6 +370,17 @@ public class MiniServiceImpl implements MiniService {
                 n = cmcDate.getData().getCryptoCurrencyList().size() - 1;
             }
             cmcDate.getData().setCryptoCurrencyList(cmcDate.getData().getCryptoCurrencyList().subList(m,n));
+            CmcDate cmcMetaverseDate = (CmcDate) redisTemplate.opsForValue().get("cmcMetaverseDate");
+            Integer k = (start - 1) * limit;
+            Integer l = (start - 1) * limit + limit;
+            if(k >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                k = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+            }
+            if(l >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                l = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+            }
+            cmcMetaverseDate.getData().setCryptoCurrencyList(cmcMetaverseDate.getData().getCryptoCurrencyList().subList(k,l));
+            map.put("Metaverse",cmcMetaverseDate);
             map.put("NFT",nftData);
             map.put("Defi",cmcDate);
         }else if(type.equalsIgnoreCase("NFT")){
@@ -396,6 +407,18 @@ public class MiniServiceImpl implements MiniService {
             }
             cmcDate.getData().setCryptoCurrencyList(cmcDate.getData().getCryptoCurrencyList().subList(m,n));
             map.put("Defi",cmcDate);
+        }else if(type.equalsIgnoreCase("metaverse")){
+            CmcDate cmcMetaverseDate = (CmcDate) redisTemplate.opsForValue().get("cmcMetaverseDate");
+            Integer m = (start - 1) * limit;
+            Integer n = (start - 1) * limit + limit;
+            if(m >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                m = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+            }
+            if(n >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                n = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+            }
+            cmcMetaverseDate.getData().setCryptoCurrencyList(cmcMetaverseDate.getData().getCryptoCurrencyList().subList(m,n));
+            map.put("Metaverse",cmcMetaverseDate);
         }
         return ResponseDataUtil.buildSuccess(map);
     }
@@ -406,7 +429,10 @@ public class MiniServiceImpl implements MiniService {
         nftData = CmcUtil.getCmcNFTDate("0",nftData.getData().getCount());
         CmcDate cmcDate = CmcUtil.getCmcDate("1","2","defi");
         cmcDate = CmcUtil.getCmcDate("1",cmcDate.getData().getTotalCount(),"defi");
+        CmcDate cmcMetaverseDate = CmcUtil.getCmcDate("1","2","metaverse");
+        cmcMetaverseDate = CmcUtil.getCmcDate("1",cmcMetaverseDate.getData().getTotalCount(),"metaverse");
         redisTemplate.opsForValue().set("cmcNftData",nftData);
         redisTemplate.opsForValue().set("cmcDefiDate",cmcDate);
+        redisTemplate.opsForValue().set("cmcMetaverseDate",cmcMetaverseDate);
     }
 }

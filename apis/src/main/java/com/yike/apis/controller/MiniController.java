@@ -32,7 +32,7 @@ public class MiniController {
 
     @ApiOperation("Get cmc data")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "type", value = "NFT,Defi; default：NFT and Defi", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "type", value = "NFT,Defi; default：NFT and Defi and metaverse", required = false, dataType = "string"),
             @ApiImplicitParam(name = "start", value = "default：1", required = false, dataType = "int"),
             @ApiImplicitParam(name = "limit", value = "default：5", required = false, dataType = "int")
     })
