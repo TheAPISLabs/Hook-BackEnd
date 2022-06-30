@@ -17,10 +17,12 @@ import com.yike.apis.utils.Coinmarketcap.vo.defi.CryptoCurrencyList;
 import com.yike.apis.utils.Coinmarketcap.vo.nft.Collections;
 import com.yike.apis.utils.CommentUtils;
 import com.yike.apis.utils.RedisUtil;
+import com.yike.apis.utils.feixiaohao.FeiXiaoHaoUtil;
 import com.yike.apis.utils.reponseUtil.ResponseData;
 import com.yike.apis.utils.reponseUtil.ResponseDataUtil;
 import com.yike.apis.dao.game.GameprojectlinkedDao;
 import com.yike.apis.utils.tokenView.TokenUtil;
+import com.yike.apis.utils.tokenView.vo.Websearch.Coinlist;
 import com.yike.apis.utils.tokenView.vo.Websearch.Maincoinex.Maincoinex;
 import com.yike.apis.utils.tokenView.vo.Websearch.tokenTokentrans.TokenTokentrans;
 import com.yike.apis.utils.tokenView.vo.Websearch.normal.Normal;
@@ -54,6 +56,8 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private GamefileDao gamefileDao;
     @Autowired
+    private GameprojectSymbolDao gameprojectSymbolDao;
+    @Autowired
     private UserDao userDao;
     @Autowired
     private GameiconDao gameiconDao;
@@ -81,7 +85,7 @@ public class GameServiceImpl implements GameService {
         if(ObjectUtil.isNotEmpty(projectName)){
             wrapper.like("name",projectName);
         }
-        if(ObjectUtil.isNotEmpty(sortField)){
+        if(ObjectUtil.isNotEmpty(sortField) && (sortField.equals("liked") || sortField.equals("initialReleaseDate"))){
             if(ObjectUtil.isNotEmpty(sort) && sort.equals("asc")){
                 wrapper.orderByAsc(sortField);
             }else {
@@ -199,36 +203,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ResponseData getGameIconByGpId(String gpId, String uId,Integer page, Integer pageSize) {
-//        if(ObjectUtil.isEmpty(page)){
-//            page = 1;
-//        }
-//        if(ObjectUtil.isEmpty(pageSize)){
-//            pageSize = 20;
-//        }
-//        QueryWrapper<GameiconVo> wrapper = new QueryWrapper<>();
-//        wrapper.eq("a.gpId",gpId);
-//        Page<GameiconVo> iPage = new Page<GameiconVo>(page, pageSize);
-//        Page<GameiconVo> gameiconVoPage = gameiconGameprojectUserDao.getGameIconByGpId(iPage,wrapper);
-//        List<GameiconVo> list1 = gameiconDao.selectListGameiconVo();
-//        List<GameiconVo> list = new ArrayList<>();
-//        if(ObjectUtil.isNotEmpty(gameiconVoPage.getRecords())){
-//            for(GameiconVo gameiconVo:gameiconVoPage.getRecords()){
-//                if(ObjectUtil.isNotEmpty(gameiconVo.getUserIcons()) && ObjectUtil.isNotEmpty(uId)){
-//                    List<com.yike.apis.pojo.game.vo.UserVo> userIcons = gameiconVo.getUserIcons();
-//                    boolean b = userIcons.stream().anyMatch(s -> s.getUId().equals(uId));
-//                    gameiconVo.setIsLiked(b);
-//                }
-//            }
-//            list.addAll(gameiconVoPage.getRecords());
-//        }
-//        if(ObjectUtil.isNotEmpty(list1)){
-//            list.addAll(list1);
-//        }
-//        ArrayList<GameiconVo> mergeList3 = list.stream().collect(
-//                Collectors.collectingAndThen(
-//                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(GameiconVo::getGiId))), ArrayList::new));
-//        gameiconVoPage.setRecords(mergeList3);
-//        return ResponseDataUtil.buildSuccess(gameiconVoPage);
         List<GameiconVo> list = gameiconDao.selectListGameiconVo();
         if(ObjectUtil.isNotEmpty(list)){
             List<UserVo> userVos = gameiconGameprojectUserDao.getUserIcons(gpId);
@@ -471,47 +445,40 @@ public class GameServiceImpl implements GameService {
                     }
                 }
 
-                if(ObjectUtil.isNotEmpty(gameproject.getTokenHash())){
-                    TokenEth tokenEth = TokenUtil.tokenEth(gameproject.getTokenHash());
-                    if(ObjectUtil.isNotEmpty(tokenEth) && ObjectUtil.isNotEmpty(tokenEth.getData()) && ObjectUtil.isNotEmpty(tokenEth.getData().getHolderCnt())){
-                        gameproject.setActiveUsers(tokenEth.getData().getHolderCnt());
-                    }
-                }
+//                if(ObjectUtil.isNotEmpty(gameproject.getTokenHash())){
+//                    TokenEth tokenEth = TokenUtil.tokenEth(gameproject.getTokenHash());
+//                    if(ObjectUtil.isNotEmpty(tokenEth) && ObjectUtil.isNotEmpty(tokenEth.getData()) && ObjectUtil.isNotEmpty(tokenEth.getData().getHolderCnt())){
+//                        gameproject.setActiveUsers(tokenEth.getData().getHolderCnt());
+//                    }
+//                }
 
-                if(gameproject.getSpecies().equals("defi")){
-                    Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase());
-                    if(ObjectUtil.isNotEmpty(o)){
-                        CryptoCurrencyList cryptoCurrencyList = (CryptoCurrencyList) o;
-                        gameproject.setVolume(cryptoCurrencyList.getQuotes().get(2).getVolume24h().toString());
-                        gameproject.setTotalNFT(cryptoCurrencyList.getTotalSupply().toString());
-                        gameproject.setCirculatingSupply(cryptoCurrencyList.getCirculatingSupply().toString());
-                    }
-                    Object o1 = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase()+"price");
-                    BigDecimal price = BigDecimal.valueOf(0);
-                    if(ObjectUtil.isNotEmpty(o1)){
-                        price = new BigDecimal(o1.toString());
-                        gameproject.setPrice(price.toPlainString());
-                    }
-                }else if(gameproject.getSpecies().equals("nft")){
-                    Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase());
-                    if(ObjectUtil.isNotEmpty(o)){
-                        Collections collections = (Collections) o;
-                        gameproject.setVolume(collections.getVolume7d().toString());
-                        gameproject.setTotalNFT(collections.getSalesAT().toString());
-                        gameproject.setCirculatingSupply(collections.getSalesAT().toString());
-                    }
-                    Object o1 = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase()+"price");
-                    BigDecimal price = BigDecimal.valueOf(0);
-                    if(ObjectUtil.isNotEmpty(o1)){
-                        price = new BigDecimal(o1.toString());
-                        gameproject.setPrice(price.toPlainString());
-                    }
-                }
-//                if(ObjectUtil.isNotEmpty(gameproject.getOpenseaName())){
-//                    Collection collection = OpenseaUtil.collection(OpenseaApi.collection.getUrl(),OpenseaApi.collection.getX_API_KEY(),OpenseaApi.collection.getAccept(),gameproject.getOpenseaName());
-//                    if(ObjectUtil.isNotEmpty(collection) && ObjectUtil.isNotEmpty(collection.getStats())){
-//                        gameproject.setVolume(collection.getStats().getOneDayVolume().toString());
-//                        gameproject.setTotalNFT(collection.getStats().getTotalVolume().longValue());
+//                if(gameproject.getSpecies().equals("defi")){
+//                    Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase());
+//                    if(ObjectUtil.isNotEmpty(o)){
+//                        CryptoCurrencyList cryptoCurrencyList = (CryptoCurrencyList) o;
+//                        gameproject.setVolume(cryptoCurrencyList.getQuotes().get(2).getVolume24h().toString());
+//                        gameproject.setTotalNFT(cryptoCurrencyList.getTotalSupply().toString());
+//                        gameproject.setCirculatingSupply(cryptoCurrencyList.getCirculatingSupply().toString());
+//                    }
+//                    Object o1 = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase()+"price");
+//                    BigDecimal price = BigDecimal.valueOf(0);
+//                    if(ObjectUtil.isNotEmpty(o1)){
+//                        price = new BigDecimal(o1.toString());
+//                        gameproject.setPrice(price.toPlainString());
+//                    }
+//                }else if(gameproject.getSpecies().equals("nft")){
+//                    Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase());
+//                    if(ObjectUtil.isNotEmpty(o)){
+//                        Collections collections = (Collections) o;
+//                        gameproject.setVolume(collections.getVolume7d().toString());
+//                        gameproject.setTotalNFT(collections.getSalesAT().toString());
+//                        gameproject.setCirculatingSupply(collections.getSalesAT().toString());
+//                    }
+//                    Object o1 = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase()+"price");
+//                    BigDecimal price = BigDecimal.valueOf(0);
+//                    if(ObjectUtil.isNotEmpty(o1)){
+//                        price = new BigDecimal(o1.toString());
+//                        gameproject.setPrice(price.toPlainString());
 //                    }
 //                }
                 gameprojectDao.updateById(gameproject);
@@ -553,32 +520,32 @@ public class GameServiceImpl implements GameService {
         return ResponseDataUtil.buildSuccess();
     }
 
-    @Override
-    public ResponseData getBuyTokenImg(String gpId, String tokenId) {
-        Gameproject gameproject = gameprojectDao.selectById(gpId);
-        if(ObjectUtil.isEmpty(gameproject)){
-            return ResponseDataUtil.buildError("The gpId transmission is abnormal");
-        }
-        if(gameproject.getSpecies().equals("defi")){
-            return ResponseDataUtil.buildSuccess(gameproject.getImgUrl());
-        }else {
-            return ResponseDataUtil.buildSuccess(gameproject.getImgUrl());
-        }
-    }
+//    @Override
+//    public ResponseData getBuyTokenImg(String gpId, String tokenId) {
+//        Gameproject gameproject = gameprojectDao.selectById(gpId);
+//        if(ObjectUtil.isEmpty(gameproject)){
+//            return ResponseDataUtil.buildError("The gpId transmission is abnormal");
+//        }
+//        if(gameproject.getSpecies().equals("defi")){
+//            return ResponseDataUtil.buildSuccess(gameproject.getImgUrl());
+//        }else {
+//            return ResponseDataUtil.buildSuccess(gameproject.getImgUrl());
+//        }
+//    }
 
-    @Override
-    public ResponseData getPrice(String gpId) {
-        Gameproject gameproject = gameprojectDao.selectById(gpId);
-        if(ObjectUtil.isEmpty(gameproject)){
-            return ResponseDataUtil.buildError("The gpId transmission is abnormal");
-        }
-        Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase()+"price");
-        BigDecimal price = BigDecimal.valueOf(0);
-        if(ObjectUtil.isNotEmpty(o)){
-            price = new BigDecimal(o.toString());
-        }
-        return ResponseDataUtil.buildSuccess(price);
-    }
+//    @Override
+//    public ResponseData getPrice(String gpId) {
+//        Gameproject gameproject = gameprojectDao.selectById(gpId);
+//        if(ObjectUtil.isEmpty(gameproject)){
+//            return ResponseDataUtil.buildError("The gpId transmission is abnormal");
+//        }
+//        Object o = redisTemplate.opsForValue().get(gameproject.getName().toLowerCase()+"price");
+//        BigDecimal price = BigDecimal.valueOf(0);
+//        if(ObjectUtil.isNotEmpty(o)){
+//            price = new BigDecimal(o.toString());
+//        }
+//        return ResponseDataUtil.buildSuccess(price);
+//    }
 
     @Override
     public ResponseData uploadGameIcon(Gameicon gameicon) {
@@ -594,12 +561,12 @@ public class GameServiceImpl implements GameService {
     public Object normal(String address, String start, String limit) {
         Normal normal = TokenUtil.normal(address,start,limit);
         if(ObjectUtil.isNotEmpty(normal) && ObjectUtil.isNotEmpty(normal.getData())){
-            QueryWrapper<Gameproject> wrapper = new QueryWrapper<>();
+            QueryWrapper<GameprojectSymbol> wrapper = new QueryWrapper<>();
             wrapper.eq("tokenHash",address);
-            Gameproject gameproject = gameprojectDao.selectOne(wrapper);
+            GameprojectSymbol gameprojectSymbol = gameprojectSymbolDao.selectOne(wrapper);
             String img = "";
-            if(gameproject.getSpecies().equals("defi")){
-                img = gameproject.getImgUrl();
+            if(gameprojectSymbol.getSpecies().equals("defi")){
+                img = gameprojectSymbol.getImgUrl();
             }
             for(com.yike.apis.utils.tokenView.vo.Websearch.normal.Data data:normal.getData()){
                 if(img.equals("")){
@@ -614,7 +581,9 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public ResponseData getGame(String gpId) {
-        Gameproject gameproject = gameprojectDao.selectById(gpId);
+        QueryWrapper<GameprojectVo> wrapper = new QueryWrapper<>();
+        wrapper.eq("gpId",gpId);
+        GameprojectVo gameproject = gameprojectDao.selectById2(wrapper);
         return ResponseDataUtil.buildSuccess(gameproject);
     }
 
@@ -664,11 +633,11 @@ public class GameServiceImpl implements GameService {
     public ResponseData tokenTokentrans(String tokenAddress, String start, String limit) {
         TokenTokentrans tokenTokentrans = TokenUtil.tokenTokentrans(tokenAddress,start,limit);
         if(ObjectUtil.isNotEmpty(tokenTokentrans) && ObjectUtil.isNotEmpty(tokenTokentrans.getData())){
-            QueryWrapper<Gameproject> wrapper = new QueryWrapper<>();
+            QueryWrapper<GameprojectSymbol> wrapper = new QueryWrapper<>();
             wrapper.eq("tokenHash",tokenAddress);
-            Gameproject gameproject = gameprojectDao.selectOne(wrapper);
+            GameprojectSymbol gameprojectSymbol = gameprojectSymbolDao.selectOne(wrapper);
             String img = "";
-            img = gameproject.getImgUrl();
+            img = gameprojectSymbol.getImgUrl();
             Maincoinex maincoinex = TokenUtil.maincoinexchange();
             List<Data> datas = tokenTokentrans.getData().stream().collect(
                     Collectors.collectingAndThen(
@@ -683,10 +652,10 @@ public class GameServiceImpl implements GameService {
                         data.setEthValue("0");
                     }
                 }else {
-                    BigDecimal b = new BigDecimal(gameproject.getPrice()).multiply(new BigDecimal(data.getValue()).divide(BigDecimal.TEN.pow(new BigDecimal(data.getTokenInfo().getD()).intValue()),8,BigDecimal.ROUND_DOWN));
+                    BigDecimal b = new BigDecimal(gameprojectSymbol.getPrice()).multiply(new BigDecimal(data.getValue()).divide(BigDecimal.TEN.pow(new BigDecimal(data.getTokenInfo().getD()).intValue()),8,BigDecimal.ROUND_DOWN));
                     data.setEthValue(b.divide(new BigDecimal(maincoinex.getData().getEth()),8,BigDecimal.ROUND_DOWN).toPlainString());
                 }
-                if(data.getImageUrl().equals("not found") || data.getImageUrl().equals("") || ObjectUtil.isEmpty(data.getImageUrl())){
+                if(ObjectUtil.isEmpty(data.getImageUrl()) || data.getImageUrl().equals("not found") || data.getImageUrl().equals("")){
                     data.setImageUrl(img);
                 }
             }
@@ -713,6 +682,31 @@ public class GameServiceImpl implements GameService {
             return ResponseDataUtil.buildError();
         }
         return ResponseDataUtil.buildSuccess();
+    }
+
+    @Override
+    public void GameSymbolThreePartyDataSynchronization() {
+        List<GameprojectSymbol> list = gameprojectSymbolDao.selectList(null);
+        if(ObjectUtil.isNotEmpty(list)){
+            for(GameprojectSymbol symbol : list){
+                if(ObjectUtil.isNotEmpty(symbol.getTokenHash())){
+                    TokenEth tokenEth = TokenUtil.tokenEth(symbol.getTokenHash());
+                    if(ObjectUtil.isNotEmpty(tokenEth) && ObjectUtil.isNotEmpty(tokenEth.getData()) && ObjectUtil.isNotEmpty(tokenEth.getData().getHolderCnt())){
+                        symbol.setActiveUsers(tokenEth.getData().getHolderCnt().toString());
+                    }
+                }
+
+                Coinlist coinlist = FeiXiaoHaoUtil.websearch2(symbol.getSymbol(),symbol.getName());
+                if(ObjectUtil.isNotEmpty(coinlist) && ObjectUtil.isNotEmpty(symbol.getSymbol()) && ObjectUtil.isNotEmpty(symbol.getName())){
+                    symbol.setVolume(new BigDecimal(coinlist.getVolume()).toPlainString());
+                    symbol.setMarketValue(new BigDecimal(coinlist.getMarketValue()).toPlainString());
+                    symbol.setCirculatingSupply(new BigDecimal(coinlist.getCirculatingsupply()).toPlainString());
+                    symbol.setPrice(coinlist.getPrice().toString());
+                    symbol.setImgUrl(coinlist.getCoinlogo());
+                }
+                gameprojectSymbolDao.updateById(symbol);
+            }
+        }
     }
 
 }

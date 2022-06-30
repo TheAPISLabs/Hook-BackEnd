@@ -31,6 +31,31 @@ public class FeiXiaoHaoUtil {
         return websearch;
     }
 
+    public static Coinlist websearch2(String code,String name){
+        String str = HttpUtil.get(String.format(FeiXiaoHaoApi.websearch,code.toUpperCase()));
+        Websearch websearch = new Websearch();
+        Boolean flang = false;
+        //Retry mechanism,3 times
+        for(int i = 0;i < 4;i++){
+            if(flang){
+                break;
+            }
+            websearch = JSONUtil.toBean(str,Websearch.class);
+            if(ObjectUtil.isNotEmpty(websearch)){
+                flang = true;
+            }
+        }
+        if(ObjectUtil.isNotEmpty(websearch) && websearch.getCode().equals(200)) {
+            List<Coinlist> coinlist = websearch.getCoinlist();
+            coinlist = coinlist.stream().filter(s -> s.getSymbol().equals(code) && name.toLowerCase().indexOf(s.getCoinname().toLowerCase()) != -1).collect(Collectors.toList());
+            if (coinlist.size() > 0) {
+                Coinlist coinlist1 = coinlist.get(0);
+                return coinlist1;
+            }
+        }
+        return null;
+    }
+
     public static Charts charts(String code){
         String str = HttpUtil.get(String.format(FeiXiaoHaoApi.charts,code.toLowerCase()));
         Charts charts = new Charts();

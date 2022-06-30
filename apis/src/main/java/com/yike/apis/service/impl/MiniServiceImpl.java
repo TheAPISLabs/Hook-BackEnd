@@ -351,74 +351,88 @@ public class MiniServiceImpl implements MiniService {
         Map map = new HashMap();
         if(ObjectUtil.isEmpty(type)){
             NftData nftData = (NftData) redisTemplate.opsForValue().get("cmcNftData");
-            Integer i = (start - 1) * limit;
-            Integer j = (start - 1) * limit + limit;
-            if(i >= nftData.getData().getCollections().size() - 1){
-                i = nftData.getData().getCollections().size() - 1;
+            if(ObjectUtil.isNotEmpty(nftData)){
+                Integer i = (start - 1) * limit;
+                Integer j = (start - 1) * limit + limit;
+                if(i >= nftData.getData().getCollections().size() - 1){
+                    i = nftData.getData().getCollections().size() - 1;
+                }
+                if(j >= nftData.getData().getCollections().size() - 1){
+                    j = nftData.getData().getCollections().size() - 1;
+                }
+                nftData.getData().setCollections(nftData.getData().getCollections().subList(i,j));
             }
-            if(j >= nftData.getData().getCollections().size() - 1){
-                j = nftData.getData().getCollections().size() - 1;
-            }
-            nftData.getData().setCollections(nftData.getData().getCollections().subList(i,j));
             CmcDate cmcDate = (CmcDate) redisTemplate.opsForValue().get("cmcDefiDate");
-            Integer m = (start - 1) * limit;
-            Integer n = (start - 1) * limit + limit;
-            if(m >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
-                m = cmcDate.getData().getCryptoCurrencyList().size() - 1;
+            if(ObjectUtil.isNotEmpty(cmcDate)){
+                Integer m = (start - 1) * limit;
+                Integer n = (start - 1) * limit + limit;
+                if(m >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
+                    m = cmcDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                if(n >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
+                    n = cmcDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                cmcDate.getData().setCryptoCurrencyList(cmcDate.getData().getCryptoCurrencyList().subList(m,n));
             }
-            if(n >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
-                n = cmcDate.getData().getCryptoCurrencyList().size() - 1;
-            }
-            cmcDate.getData().setCryptoCurrencyList(cmcDate.getData().getCryptoCurrencyList().subList(m,n));
             CmcDate cmcMetaverseDate = (CmcDate) redisTemplate.opsForValue().get("cmcMetaverseDate");
-            Integer k = (start - 1) * limit;
-            Integer l = (start - 1) * limit + limit;
-            if(k >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
-                k = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+            if(ObjectUtil.isNotEmpty(cmcMetaverseDate)){
+                Integer m = (start - 1) * limit;
+                Integer n = (start - 1) * limit + limit;
+                if(m >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                    m = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                if(n >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                    n = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                cmcMetaverseDate.getData().setCryptoCurrencyList(cmcMetaverseDate.getData().getCryptoCurrencyList().subList(m,n));
             }
-            if(l >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
-                l = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
-            }
-            cmcMetaverseDate.getData().setCryptoCurrencyList(cmcMetaverseDate.getData().getCryptoCurrencyList().subList(k,l));
             map.put("Metaverse",cmcMetaverseDate);
             map.put("NFT",nftData);
             map.put("Defi",cmcDate);
         }else if(type.equalsIgnoreCase("NFT")){
             NftData nftData = (NftData) redisTemplate.opsForValue().get("cmcNftData");
-            Integer i = (start - 1) * limit;
-            Integer j = (start - 1) * limit + limit;
-            if(i >= nftData.getData().getCollections().size() - 1){
-                i = nftData.getData().getCollections().size() - 1;
+            if(ObjectUtil.isNotEmpty(nftData)){
+                Integer i = (start - 1) * limit;
+                Integer j = (start - 1) * limit + limit;
+                if(i >= nftData.getData().getCollections().size() - 1){
+                    i = nftData.getData().getCollections().size() - 1;
+                }
+                if(j >= nftData.getData().getCollections().size() - 1){
+                    j = nftData.getData().getCollections().size() - 1;
+                }
+                nftData.getData().setCollections(nftData.getData().getCollections().subList(i,j));
+                map.put("NFT",nftData);
             }
-            if(j >= nftData.getData().getCollections().size() - 1){
-                j = nftData.getData().getCollections().size() - 1;
-            }
-            nftData.getData().setCollections(nftData.getData().getCollections().subList(i,j));
-            map.put("NFT",nftData);
+
         }else if(type.equalsIgnoreCase("Defi")){
             CmcDate cmcDate = (CmcDate) redisTemplate.opsForValue().get("cmcDefiDate");
-            Integer m = (start - 1) * limit;
-            Integer n = (start - 1) * limit + limit;
-            if(m >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
-                m = cmcDate.getData().getCryptoCurrencyList().size() - 1;
+            if(ObjectUtil.isNotEmpty(cmcDate)){
+                Integer m = (start - 1) * limit;
+                Integer n = (start - 1) * limit + limit;
+                if(m >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
+                    m = cmcDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                if(n >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
+                    n = cmcDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                cmcDate.getData().setCryptoCurrencyList(cmcDate.getData().getCryptoCurrencyList().subList(m,n));
+                map.put("Defi",cmcDate);
             }
-            if(n >= cmcDate.getData().getCryptoCurrencyList().size() - 1){
-                n = cmcDate.getData().getCryptoCurrencyList().size() - 1;
-            }
-            cmcDate.getData().setCryptoCurrencyList(cmcDate.getData().getCryptoCurrencyList().subList(m,n));
-            map.put("Defi",cmcDate);
+
         }else if(type.equalsIgnoreCase("metaverse")){
             CmcDate cmcMetaverseDate = (CmcDate) redisTemplate.opsForValue().get("cmcMetaverseDate");
-            Integer m = (start - 1) * limit;
-            Integer n = (start - 1) * limit + limit;
-            if(m >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
-                m = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+            if(ObjectUtil.isNotEmpty(cmcMetaverseDate)){
+                Integer m = (start - 1) * limit;
+                Integer n = (start - 1) * limit + limit;
+                if(m >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                    m = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                if(n >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
+                    n = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
+                }
+                cmcMetaverseDate.getData().setCryptoCurrencyList(cmcMetaverseDate.getData().getCryptoCurrencyList().subList(m,n));
+                map.put("Metaverse",cmcMetaverseDate);
             }
-            if(n >= cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1){
-                n = cmcMetaverseDate.getData().getCryptoCurrencyList().size() - 1;
-            }
-            cmcMetaverseDate.getData().setCryptoCurrencyList(cmcMetaverseDate.getData().getCryptoCurrencyList().subList(m,n));
-            map.put("Metaverse",cmcMetaverseDate);
         }
         return ResponseDataUtil.buildSuccess(map);
     }

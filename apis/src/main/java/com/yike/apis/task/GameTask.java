@@ -24,6 +24,14 @@ public class GameTask {
     }
 
     @Async
+    @Scheduled(fixedDelay = 1000 * 60 * 40)
+    public void GameSymbolThreePartyDataSynchronization(){
+        log.info("Game：GameSymbolThreePartyDataSynchronization-------------start");
+        gameService.GameSymbolThreePartyDataSynchronization();
+        log.info("Game：GameSymbolThreePartyDataSynchronization-------------stop");
+    }
+
+    @Async
     @Scheduled(cron = "0 30 * * * ?")
     public void commentLikedDataSynchronization(){
         log.info("Game：commentLikedDataSynchronization-------------start");

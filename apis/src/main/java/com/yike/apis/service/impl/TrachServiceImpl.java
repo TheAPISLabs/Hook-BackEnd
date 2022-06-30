@@ -63,7 +63,7 @@ public class TrachServiceImpl implements TrachService {
                     o = redisTemplate.opsForValue().get(tokenBalance.getData().get(i).getTokenInfo().getF().toLowerCase()+"price");
                 }
                 BigDecimal price = BigDecimal.valueOf(0);
-                if(ObjectUtil.isNotEmpty(o)){
+                if(ObjectUtil.isNotEmpty(o) && !o.equals("NaN")){
                     price = new BigDecimal(o.toString());
                 }
                 tokenBalance.getData().get(i).setPrice(price.toPlainString());

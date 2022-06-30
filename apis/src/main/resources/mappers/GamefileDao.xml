@@ -25,4 +25,10 @@
                     LEFT JOIN gamefile b ON a.gfId = b.gfId
     WHERE a.gpId = #{gpId} AND b.type = 2
   </select>
+
+  <select id="getGamefileByGpId3" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_gamefile a
+                    LEFT JOIN gamefile b ON a.gfId = b.gfId
+    WHERE a.gpId = #{gpId} AND b.type = 3
+  </select>
 </mapper>

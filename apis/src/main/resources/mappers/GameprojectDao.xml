@@ -4,17 +4,17 @@
   <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.Gameproject">
     <id column="gpId" jdbcType="VARCHAR" property="gpId" />
     <result column="genres" jdbcType="VARCHAR" property="genres" />
-    <result column="tokenHash" jdbcType="VARCHAR" property="tokenHash" />
+<!--    <result column="tokenHash" jdbcType="VARCHAR" property="tokenHash" />-->
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="initialReleaseDate" jdbcType="BIGINT" property="initialReleaseDate" />
     <result column="twitterFollower" jdbcType="INTEGER" property="twitterFollower" />
-    <result column="activeUsers" jdbcType="INTEGER" property="activeUsers" />
+<!--    <result column="activeUsers" jdbcType="INTEGER" property="activeUsers" />-->
     <result column="gameStudio" jdbcType="VARCHAR" property="gameStudio" />
-    <result column="volume" jdbcType="VARCHAR" property="volume" />
+<!--    <result column="volume" jdbcType="VARCHAR" property="volume" />-->
     <result column="gameIntroduction" jdbcType="VARCHAR" property="gameIntroduction" />
-    <result column="totalNFT" jdbcType="BIGINT" property="totalNFT" />
+<!--    <result column="totalNFT" jdbcType="BIGINT" property="totalNFT" />-->
     <result column="gameUrl" jdbcType="VARCHAR" property="gameUrl" />
-    <result column="imgUrl" jdbcType="VARCHAR" property="imgUrl" />
+<!--    <result column="imgUrl" jdbcType="VARCHAR" property="imgUrl" />-->
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="liked" jdbcType="BIGINT" property="liked" />
     <result column="ngmi" jdbcType="BIGINT" property="ngmi" />
@@ -29,33 +29,45 @@
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="initialReleaseDate" jdbcType="BIGINT" property="initialReleaseDate" />
     <result column="twitterFollower" jdbcType="INTEGER" property="twitterFollower" />
-    <result column="activeUsers" jdbcType="INTEGER" property="activeUsers" />
+<!--    <result column="activeUsers" jdbcType="INTEGER" property="activeUsers" />-->
     <result column="gameStudio" jdbcType="VARCHAR" property="gameStudio" />
-    <result column="volume" jdbcType="VARCHAR" property="volume" />
+<!--    <result column="volume" jdbcType="VARCHAR" property="volume" />-->
     <result column="gameIntroduction" jdbcType="VARCHAR" property="gameIntroduction" />
-    <result column="totalNFT" jdbcType="VARCHAR" property="totalNFT" />
+<!--    <result column="totalNFT" jdbcType="VARCHAR" property="totalNFT" />-->
     <result column="gameUrl" jdbcType="VARCHAR" property="gameUrl" />
-    <result column="imgUrl" jdbcType="VARCHAR" property="imgUrl" />
+<!--    <result column="imgUrl" jdbcType="VARCHAR" property="imgUrl" />-->
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="liked" jdbcType="BIGINT" property="liked" />
     <result column="ngmi" jdbcType="BIGINT" property="ngmi" />
     <result column="moon" jdbcType="BIGINT" property="moon" />
     <result column="twtter" jdbcType="VARCHAR" property="twtter" />
     <result column="backPeriod" jdbcType="INTEGER" property="backPeriod" />
-    <result column="openseaName" jdbcType="VARCHAR" property="openseaName" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="species" jdbcType="VARCHAR" property="species" />
+<!--    <result column="openseaName" jdbcType="VARCHAR" property="openseaName" />-->
+<!--    <result column="type" jdbcType="VARCHAR" property="type" />-->
+<!--    <result column="species" jdbcType="VARCHAR" property="species" />-->
     <result column="gameUserIcon" jdbcType="VARCHAR" property="gameUserIcon" />
-    <result column="price" jdbcType="VARCHAR" property="price" />
-    <result column="circulatingSupply" jdbcType="VARCHAR" property="circulatingSupply" />
+<!--    <result column="price" jdbcType="VARCHAR" property="price" />-->
+<!--    <result column="circulatingSupply" jdbcType="VARCHAR" property="circulatingSupply" />-->
+    <collection column="{gpId=gpId}" property="top" ofType="com.yike.apis.pojo.game.GameprojectSymbol" javaType="java.util.List"
+                select="com.yike.apis.dao.game.GameprojectSymbolDao.getGameprojectSymbolByGpId"></collection>
+    <collection column="{gpId=gpId}" property="nfts" ofType="com.yike.apis.pojo.game.GameprojectSymbol" javaType="java.util.List"
+                select="com.yike.apis.dao.game.GameprojectSymbolDao.getGameprojectSymbolByGpId1"></collection>
+    <collection column="{gpId=gpId}" property="defis" ofType="com.yike.apis.pojo.game.GameprojectSymbol" javaType="java.util.List"
+                select="com.yike.apis.dao.game.GameprojectSymbolDao.getGameprojectSymbolByGpId2"></collection>
     <collection column="{gpId=gpId}" property="videos" ofType="com.yike.apis.pojo.game.Gamefile" javaType="java.util.List"
                 select="com.yike.apis.dao.game.GamefileDao.getGamefileByGpId1"></collection>
     <collection column="{gpId=gpId}" property="imgs" ofType="com.yike.apis.pojo.game.Gamefile" javaType="java.util.List"
                 select="com.yike.apis.dao.game.GamefileDao.getGamefileByGpId2"></collection>
+    <collection column="{gpId=gpId}" property="icon" ofType="com.yike.apis.pojo.game.Gamefile" javaType="java.util.List"
+                select="com.yike.apis.dao.game.GamefileDao.getGamefileByGpId3"></collection>
   </resultMap>
 
 
   <select id="getGameItems" resultMap="GameprojectVo">
+    SELECT * FROM gameproject
+                    ${ew.customSqlSegment}
+  </select>
+  <select id="selectById2" resultMap="GameprojectVo">
     SELECT * FROM gameproject
                     ${ew.customSqlSegment}
   </select>

@@ -74,9 +74,9 @@ public interface GameService {
 
     ResponseData userSetGameIcon(GameiconGameprojectUser gameiconGameprojectUser);
 
-    ResponseData getBuyTokenImg(String gpId, String tokenId);
-
-    ResponseData getPrice(String gpId);
+//    ResponseData getBuyTokenImg(String gpId, String tokenId);
+//
+//    ResponseData getPrice(String gpId);
 
     ResponseData uploadGameIcon(Gameicon gameicon);
 
@@ -91,4 +91,6 @@ public interface GameService {
     ResponseData tokenTokentrans(String tokenAddress, String start, String limit);
 
     ResponseData delUserSetGameIcon(GameiconGameprojectUser gameiconGameprojectUser);
+
+    void GameSymbolThreePartyDataSynchronization();
 }

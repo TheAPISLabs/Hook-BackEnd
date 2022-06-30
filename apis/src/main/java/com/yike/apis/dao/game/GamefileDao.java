@@ -14,4 +14,6 @@ public interface GamefileDao extends BaseMapper<Gamefile> {
     List<Gamefile> getGamefileByGpId1(@Param("gpId") String gpId);
 
     List<Gamefile> getGamefileByGpId2(@Param("gpId") String gpId);
+
+    List<Gamefile> getGamefileByGpId3(@Param("gpId") String gpId);
 }

@@ -14,4 +14,6 @@ import java.util.List;
 @Mapper
 public interface GameprojectDao extends BaseMapper<Gameproject> {
     Page<GameprojectVo> getGameItems(Page<GameprojectVo> iPage, @Param(Constants.WRAPPER) QueryWrapper<GameprojectVo> wrapper);
+
+    GameprojectVo selectById2(@Param(Constants.WRAPPER) QueryWrapper<GameprojectVo> wrapper);
 }

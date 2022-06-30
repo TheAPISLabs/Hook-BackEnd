@@ -38,7 +38,7 @@ public class GameController {
     @ApiOperation("Get game items")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "projectName", value = "projectName", required = false, dataType = "string"),
-            @ApiImplicitParam(name = "sortField", value = "like,initialReleaseDate", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "sortField", value = "liked,initialReleaseDate", required = false, dataType = "string"),
             @ApiImplicitParam(name = "sort", value = "asc,desc", required = false, dataType = "string"),
             @ApiImplicitParam(name = "page", value = "page", required = false, dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "pageSize", required = false, dataType = "int")

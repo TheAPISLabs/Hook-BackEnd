@@ -2,11 +2,11 @@ server:
   encoding:
     charset: UTF-8
   port: 8898
-  ssl:
-    enabled: true
-    key-store: classpath:api.hook.cool.jks # The certificate file
-    key-store-password: dev_apis  # password
-    key-store-type: JKS # Keystore type
+#  ssl:
+#    enabled: true
+#    key-store: classpath:api.hook.cool.jks # The certificate file
+#    key-store-password: dev_apis  # password
+#    key-store-type: JKS # Keystore type
 
 spring:
   config:

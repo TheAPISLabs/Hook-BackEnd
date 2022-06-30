@@ -22,25 +22,25 @@ public class Gameproject implements Serializable {
 
     private String version;
 
-    private String tokenHash;
+//    private String tokenHash;
 
     private Long initialReleaseDate;
 
     private Integer twitterFollower;
 
-    private Integer activeUsers;
+//    private Integer activeUsers;
 
     private String gameStudio;
 
-    private String volume;
+//    private String volume;
 
     private String gameIntroduction;
 
-    private String totalNFT;
+//    private String totalNFT;
 
     private String gameUrl;
 
-    private String imgUrl;
+//    private String imgUrl;
 
     private Long liked;
 
@@ -52,17 +52,17 @@ public class Gameproject implements Serializable {
 
     private Integer backPeriod;
 
-    private String openseaName;
+//    private String openseaName;
 
-    private String type;
+//    private String type;
 
-    private String species;
+//    private String species;
 
     private String gameUserIcon;
 
-    private String price;
+//    private String price;
 
-    private String circulatingSupply;
+//    private String circulatingSupply;
 
     private static final long serialVersionUID = 1L;
 }
