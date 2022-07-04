@@ -48,6 +48,8 @@
     <result column="gameUserIcon" jdbcType="VARCHAR" property="gameUserIcon" />
 <!--    <result column="price" jdbcType="VARCHAR" property="price" />-->
 <!--    <result column="circulatingSupply" jdbcType="VARCHAR" property="circulatingSupply" />-->
+    <collection column="{gpId=gpId}" property="backers" ofType="com.yike.apis.pojo.game.Gamebackers" javaType="java.util.List"
+                select="com.yike.apis.dao.game.GamebackersDao.getGamebackersByGpId"></collection>
     <collection column="{gpId=gpId}" property="top" ofType="com.yike.apis.pojo.game.GameprojectSymbol" javaType="java.util.List"
                 select="com.yike.apis.dao.game.GameprojectSymbolDao.getGameprojectSymbolByGpId"></collection>
     <collection column="{gpId=gpId}" property="nfts" ofType="com.yike.apis.pojo.game.GameprojectSymbol" javaType="java.util.List"

@@ -702,7 +702,7 @@ public class GameServiceImpl implements GameService {
                     symbol.setMarketValue(new BigDecimal(coinlist.getMarketValue()).toPlainString());
                     symbol.setCirculatingSupply(new BigDecimal(coinlist.getCirculatingsupply()).toPlainString());
                     symbol.setPrice(coinlist.getPrice().toString());
-                    symbol.setImgUrl(coinlist.getCoinlogo());
+//                    symbol.setImgUrl(coinlist.getCoinlogo());
                 }
                 gameprojectSymbolDao.updateById(symbol);
             }

@@ -1,6 +1,7 @@
 package com.yike.apis.pojo.game.vo;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.yike.apis.pojo.game.Gamebackers;
 import com.yike.apis.pojo.game.Gamefile;
 import com.yike.apis.pojo.game.GameprojectSymbol;
 import lombok.Data;
@@ -59,6 +60,8 @@ public class GameprojectVo {
 //    private String price;
 
 //    private String circulatingSupply;
+
+    private List<Gamebackers> backers;
 
     private List<GameprojectSymbol> top;
 
