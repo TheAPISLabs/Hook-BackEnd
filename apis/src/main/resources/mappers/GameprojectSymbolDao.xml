@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.game.GameprojectSymbolDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.GameprojectSymbol">
+    <id column="gpsId" jdbcType="VARCHAR" property="gpsId" />
+    <result column="gpId" jdbcType="VARCHAR" property="gpId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="volume" jdbcType="VARCHAR" property="volume" />
+    <result column="marketValue" jdbcType="VARCHAR" property="marketValue" />
+    <result column="imgUrl" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="tokenHash" jdbcType="VARCHAR" property="tokenHash" />
+    <result column="symbol" jdbcType="VARCHAR" property="symbol" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="circulatingSupply" jdbcType="VARCHAR" property="circulatingSupply" />
+    <result column="species" jdbcType="VARCHAR" property="species" />
+    <result column="introductionCurrency" jdbcType="VARCHAR" property="introductionCurrency" />
+  </resultMap>
+
+
+  <select id="getGameprojectSymbolByGpId" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_symbol
+    WHERE gpId = #{gpId} AND status = "1"
+  </select>
+
+  <select id="getGameprojectSymbolByGpId1" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_symbol
+    WHERE gpId = #{gpId} AND species = "nft"
+  </select>
+
+  <select id="getGameprojectSymbolByGpId2" resultMap="BaseResultMap">
+    SELECT * FROM gameproject_symbol
+    WHERE gpId = #{gpId} AND species = "defi"
+  </select>
+
+</mapper>

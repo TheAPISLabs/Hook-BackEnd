@@ -22,7 +22,7 @@ public class Gameproject implements Serializable {
 
     private String version;
 
-//    private String tokenHash;
+    private String gtId;
 
     private Long initialReleaseDate;
 

@@ -214,11 +214,13 @@ public class MiniServiceImpl implements MiniService {
             Object metaverse = redisTemplate.opsForValue().get("metaverse"+time);
             if(ObjectUtil.isNotEmpty(NFT)){
                 List<Marketcapitalization> NFT_new = (List<Marketcapitalization>) NFT;
-                NFT_new = NFT_new.subList(0,NFT_new.size() > 30 ? 30 : NFT_new.size());
+                Integer start = NFT_new.size() > 31 ? NFT_new.size() - 31 : 0;
+                Integer stop = NFT_new.size();
+                NFT_new = NFT_new.subList(start,stop);
                 List<Marketcapitalization> Defi_new = (List<Marketcapitalization>) Defi;
-                Defi_new = Defi_new.subList(0,Defi_new.size() > 30 ? 30 : Defi_new.size());
+                Defi_new = Defi_new.subList(start,stop);
                 List<Marketcapitalization> metaverse_new = (List<Marketcapitalization>) metaverse;
-                metaverse_new = metaverse_new.subList(0,metaverse_new.size() > 30 ? 30 : metaverse_new.size());
+                metaverse_new = metaverse_new.subList(start,stop);
                 Map map1 = new HashMap();
                 map1.put("volume",NFT_new.stream().map(e -> e.getVolume()));
                 map1.put("marketCap",NFT_new.stream().map(e -> e.getMarketCap()));

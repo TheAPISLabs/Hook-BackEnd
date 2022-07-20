@@ -12,7 +12,7 @@ import com.yike.apis.utils.reponseUtil.ResponseData;
 import java.util.List;
 
 public interface GameService {
-    ResponseData getGameItems(String projectName,String sortField,String sort,Integer page, Integer pageSize);
+    ResponseData getGameItems(String gtId,String projectName,String sortField,String sort,Integer page, Integer pageSize);
 
     ResponseData getComments(String gpId, String uId,String sortField,String sort,Integer page, Integer pageSize);
 
@@ -82,7 +82,7 @@ public interface GameService {
 
     Object normal(String address, String start, String limit);
 
-    ResponseData getGame(String gpId);
+    ResponseData getGame(String gpId,String gtId);
 
     ResponseData commentLiked(CommentLikedVo commentLikedVo);
 
@@ -93,4 +93,8 @@ public interface GameService {
     ResponseData delUserSetGameIcon(GameiconGameprojectUser gameiconGameprojectUser);
 
     void GameSymbolThreePartyDataSynchronization();
+
+    ResponseData getGameType();
+
+    ResponseData getGameBanner();
 }

@@ -37,6 +37,7 @@ public class GameController {
 
     @ApiOperation("Get game items")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "gtId", value = "gtId", required = false, dataType = "string"),
             @ApiImplicitParam(name = "projectName", value = "projectName", required = false, dataType = "string"),
             @ApiImplicitParam(name = "sortField", value = "liked,initialReleaseDate", required = false, dataType = "string"),
             @ApiImplicitParam(name = "sort", value = "asc,desc", required = false, dataType = "string"),
@@ -44,18 +45,31 @@ public class GameController {
             @ApiImplicitParam(name = "pageSize", value = "pageSize", required = false, dataType = "int")
     })
     @RequestMapping(value = "/getGameItems", method = RequestMethod.GET)
-    public ResponseData getGameItems(@RequestParam(required = false) String projectName,@RequestParam(required = false) String sortField,@RequestParam(required = false) String sort,
+    public ResponseData getGameItems(@RequestParam(required = false) String gtId,@RequestParam(required = false) String projectName,@RequestParam(required = false) String sortField,@RequestParam(required = false) String sort,
                                      @RequestParam(required = false) Integer page,@RequestParam(required = false) Integer pageSize){
-        return gameService.getGameItems(projectName,sortField,sort,page,pageSize);
+        return gameService.getGameItems(gtId,projectName,sortField,sort,page,pageSize);
     }
 
     @ApiOperation("Get game")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "gpId", value = "gpId", required = true, dataType = "string")
+            @ApiImplicitParam(name = "gpId", value = "gpId", required = true, dataType = "string"),
+            @ApiImplicitParam(name = "gtId", value = "gtId", required = false, dataType = "string")
     })
     @RequestMapping(value = "/getGame", method = RequestMethod.GET)
-    public ResponseData getGame(@RequestParam String gpId){
-        return gameService.getGame(gpId);
+    public ResponseData getGame(@RequestParam String gpId,@RequestParam(required = false) String gtId){
+        return gameService.getGame(gpId,gtId);
+    }
+
+    @ApiOperation("Get game type")
+    @RequestMapping(value = "/getGameType", method = RequestMethod.GET)
+    public ResponseData getGameType(){
+        return gameService.getGameType();
+    }
+
+    @ApiOperation("Get game banner")
+    @RequestMapping(value = "/getGameBanner", method = RequestMethod.GET)
+    public ResponseData getGameBanner(){
+        return gameService.getGameBanner();
     }
 
     @ApiOperation("Get comments")

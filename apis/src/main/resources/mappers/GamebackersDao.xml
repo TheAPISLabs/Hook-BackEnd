@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yike.apis.dao.game.GamebackersDao">
+  <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.Gamebackers">
+    <id column="gbId" jdbcType="VARCHAR" property="gbid" />
+    <result column="gpId" jdbcType="VARCHAR" property="gpid" />
+    <result column="backerIcon" jdbcType="VARCHAR" property="backericon" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <select id="getGamebackersByGpId" resultMap="BaseResultMap">
+    SELECT * FROM gamebackers
+    WHERE gpId = #{gpId}
+  </select>
+</mapper>

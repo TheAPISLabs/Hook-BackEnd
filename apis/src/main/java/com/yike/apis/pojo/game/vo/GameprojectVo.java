@@ -19,7 +19,7 @@ public class GameprojectVo {
 
     private String version;
 
-//    private String tokenHash;
+    private String gtId;
 
     private Long initialReleaseDate;
 

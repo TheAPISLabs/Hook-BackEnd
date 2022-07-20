@@ -56,6 +56,10 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private GamefileDao gamefileDao;
     @Autowired
+    private GametypeDao gametypeDao;
+    @Autowired
+    private GamebannerDao gamebannerDao;
+    @Autowired
     private GameprojectSymbolDao gameprojectSymbolDao;
     @Autowired
     private UserDao userDao;
@@ -74,7 +78,7 @@ public class GameServiceImpl implements GameService {
     @Autowired
     private RedisTemplate redisTemplate;
     @Override
-    public ResponseData getGameItems(String projectName,String sortField,String sort,Integer page, Integer pageSize) {
+    public ResponseData getGameItems(String gtId,String projectName,String sortField,String sort,Integer page, Integer pageSize) {
         if(ObjectUtil.isEmpty(page)){
             page = 1;
         }
@@ -84,6 +88,9 @@ public class GameServiceImpl implements GameService {
         QueryWrapper<GameprojectVo> wrapper = new QueryWrapper<>();
         if(ObjectUtil.isNotEmpty(projectName)){
             wrapper.like("name",projectName);
+        }
+        if(ObjectUtil.isNotEmpty(gtId)){
+            wrapper.like("gtId",gtId);
         }
         if(ObjectUtil.isNotEmpty(sortField) && (sortField.equals("liked") || sortField.equals("initialReleaseDate"))){
             if(ObjectUtil.isNotEmpty(sort) && sort.equals("asc")){
@@ -580,9 +587,12 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ResponseData getGame(String gpId) {
+    public ResponseData getGame(String gpId,String gtId) {
         QueryWrapper<GameprojectVo> wrapper = new QueryWrapper<>();
         wrapper.eq("gpId",gpId);
+        if(ObjectUtil.isNotEmpty(gtId)){
+            wrapper.like("gtId",gtId);
+        }
         GameprojectVo gameproject = gameprojectDao.selectById2(wrapper);
         return ResponseDataUtil.buildSuccess(gameproject);
     }
@@ -707,6 +717,18 @@ public class GameServiceImpl implements GameService {
                 gameprojectSymbolDao.updateById(symbol);
             }
         }
+    }
+
+    @Override
+    public ResponseData getGameType() {
+        List<Gametype> list = gametypeDao.selectList(null);
+        return ResponseDataUtil.buildSuccess(list);
+    }
+
+    @Override
+    public ResponseData getGameBanner() {
+        List<Gamebanner> list = gamebannerDao.selectList(null);
+        return ResponseDataUtil.buildSuccess(list);
     }
 
 }

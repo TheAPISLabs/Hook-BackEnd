@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.yike.apis.pojo.game.Gameproject">
     <id column="gpId" jdbcType="VARCHAR" property="gpId" />
     <result column="genres" jdbcType="VARCHAR" property="genres" />
-<!--    <result column="tokenHash" jdbcType="VARCHAR" property="tokenHash" />-->
+    <result column="gtId" jdbcType="VARCHAR" property="gtId" />
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="initialReleaseDate" jdbcType="BIGINT" property="initialReleaseDate" />
     <result column="twitterFollower" jdbcType="INTEGER" property="twitterFollower" />
@@ -26,6 +26,7 @@
   <resultMap id="GameprojectVo" type="com.yike.apis.pojo.game.vo.GameprojectVo">
     <id column="gpId" jdbcType="VARCHAR" property="gpId" />
     <result column="genres" jdbcType="VARCHAR" property="genres" />
+    <result column="gtId" jdbcType="VARCHAR" property="gtId" />
     <result column="version" jdbcType="VARCHAR" property="version" />
     <result column="initialReleaseDate" jdbcType="BIGINT" property="initialReleaseDate" />
     <result column="twitterFollower" jdbcType="INTEGER" property="twitterFollower" />
